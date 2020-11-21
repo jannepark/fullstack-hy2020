@@ -1,0 +1,7 @@
+Selain->Palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over Selain: Tallennattaessa uusi muistiinpano, js-koodi lisää sen ruudulla näkyvään listaan
+note over Selain: Selain lähettää palvelimella POST pyynnön joka on json muodossa oleva uusi muistiinpano
+note over Palvelin: Palvelin kuittaa pyynnön statuskoodilla 201 created
+Palvelin->Selain: HTTP 201 /created
+
+https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC42OiBVdXNpIG11aXN0aWlucGFubwoKU2VsYWluLT5QYWx2ZWxpbjogSFRUUCBQT1NUIGh0dHBzOi8vc3R1ZGllcy5jcy5oZWxzaW5raS5maS9leGFtcGxlYXBwL25ld19ub3RlX3NwYQpub3RlIG92ZXIgAFcGOiBUYWxsZW5uYXR0YWVzc2EgdQB4ECwganMta29vZGkgbGlzw6TDpCBzZW4gcnV1ZHVsbGEgbsOka3l2w6TDpG4gbGlzdGFhbgBUEwCBRgYgbMOkaGV0dABBBXAAgVEGbWVsbGEAgU8GcHl5bm7Dtm4gam9rYSBvbiBqc29uIG11b2Rvc3NhIG9sZXYAgQ4TAIFKCwCCIAoAgiwIIGt1aXR0YWEAUgpzdGF0dXMAgUwFbGxhIDIwMSBjcmVhdGVkCgCCYQgtPgCCFggAgmwFMjAxIC8AHAgKCgo&s=default
