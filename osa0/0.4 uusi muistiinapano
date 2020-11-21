@@ -1,0 +1,16 @@
+0.4 Uusi muistiinpano
+
+Selain->Palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+Palvelin->Selain: HTTP 302 /notes
+
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Palvelin->Selain: HTML-koodi
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Palvelin->Selain: main.css
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Palvelin->Selain: main.js
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Palvelin->Selain: data.json
+
+Linkki sekvenssikaavioon:
+https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC40IFV1c2kgbXVpc3RpaW5wYW5vCgpTZWxhaW4tPlBhbHZlbGluOiBIVFRQIFBPU1QgaHR0cHM6Ly9zdHVkaWVzLmNzLmhlbHNpbmtpLmZpL2V4YW1wbGVhcHAvbmV3X25vdGUKAD8ILT4AUwYASAczMDIgL25vdGVzAFkZR0UARC0ARwUAWhRNTC1rb29kaQAiRm1haW4uY3MAVxQAEgkAH0pqAE8ZagAgR2RhdGEuanNvbgCDFxMAEgoK&s=default
