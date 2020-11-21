@@ -1,0 +1,14 @@
+https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC41OiBTaW5nbGUgUGFnZSBBcHAKClNlbGFpbi0-UGFsdmVsaW46IEhUVFAgR0VUIGh0dHBzOi8vc3R1ZGllcy5jcy5oZWxzaW5raS5maS9leGFtcGxlYXBwL3NwYQoAOQgtPgBNBjogSFRNTC1rb29kaQAgR21haW4uY3NzAFkTABIJAIEISC5qAFMUABIHAIFwRmRhdGEuanNvbgCCKRMAEgo&s=default
+
+title 0.5: Single Page App
+
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Palvelin->Selain: HTML-koodi
+
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Palvelin->Selain: main.css
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Palvelin->Selain: spa.js
+
+Selain->Palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Palvelin->Selain: data.json
