@@ -6,40 +6,43 @@ const Button = ({ handleClick,text}) =>
       {text}
     </button>
   )
+const Statistics = ({good,neutral,bad}) => {
 
+  const total = good+neutral+bad
+  const average = ((good*1)+(bad*-1)+(neutral*0))/total
+  const positive = (good/total)*100
+  if (!total){
+    return(
+    <><p>No feedback given</p></>
+    )
+  } else{
+  return (
+    <div>
+      <p>Good {good}</p>
+      <p>Neutral {neutral}</p>
+      <p>Bad {bad}</p>
+      <p>Total {total}</p>
+      <p>Average {average}</p>
+      <p>Positive {positive} %</p>
+    </div>
+  )}
+}
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const [total, setTotal] = useState(0)
-  const [average, setAverage] = useState(0)
-  const [positive, setPositive] = useState(0)
+
 
   const handleNeutralClick = () => {
-    const updatedNeutral = neutral +1
-    const updatedTotal = good+bad+updatedNeutral
-    setNeutral(updatedNeutral)
-    setTotal(updatedTotal)
-    setAverage(((good*1)+(bad*-1)+(updatedNeutral*0))/updatedTotal)
-    setPositive((good/updatedTotal)*100)
+    setNeutral(neutral +1)
   }
 
   const handleBadClick = () => {
-    const updatedBad = bad +1
-    const updatedTotal = good+updatedBad+neutral
-    setBad(updatedBad)
-    setTotal(updatedTotal)
-    setAverage(((good*1)+(updatedBad*-1)+(neutral*0))/updatedTotal)
-    setPositive((good/updatedTotal)*100)
+    setBad(bad +1)
   }
   const handleGoodClick = () => {
-    const updatedGood = good +1
-    const updatedTotal = updatedGood+bad+neutral
-    setGood(updatedGood)
-    setTotal(updatedTotal)
-    setAverage(((updatedGood*1)+(bad*-1)+(neutral*0))/updatedTotal)
-    setPositive((updatedGood/updatedTotal)*100)
+    setGood(good +1)
   }
   return (
     <div>
@@ -54,12 +57,7 @@ const App = () => {
         <Button handleClick={handleBadClick} text='bad' />
 
         <h1>Statistics</h1>
-        <p>Good {good}</p>
-        <p>Neutral {neutral}</p>
-        <p>Bad {bad}</p>
-        <p>Total {total}</p>
-        <p>Average {average}</p>
-        <p>Positive {positive} %</p>
+        <Statistics good={good} neutral={neutral} bad={bad} />
       </div>
     </div>
   )
