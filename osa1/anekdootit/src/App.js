@@ -6,6 +6,23 @@ const Button = ({ handleClick,text}) =>
       {text}
     </button>
   )
+const MostVotes = ({points,anecdotes}) => {
+  const result = points.indexOf(Math.max(...points))
+  console.log(points)
+  if (Math.max(...points) == 0) {
+    return (
+      <>
+        <p>No votes yet</p>
+      </>
+    )
+  }
+  return(
+    <>
+      <p>{anecdotes[result]}</p> 
+      <p>Votes: {points[result]}</p>
+    </>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -20,17 +37,30 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(new Array(8).fill(0))
 
   const handleRandomClick = () => {
     const randomnum = Math.floor(Math.random()*8)
     setSelected(randomnum)
-    console.log({randomnum})
+  }
+  const handleVoteClick = () => {
+    const copy = [...points]
+    copy[selected] +=1
+    setPoints(copy)
   }
   
   return (
     <div>
+      <h2>
+        Anecdote of the day
+      </h2>
       <p>{anecdotes[selected]}</p>
       <Button handleClick={handleRandomClick} text='Next anecdote'/>
+      <Button handleClick={handleVoteClick} text='Vote' />
+      <h2>
+        Anecdote with most votes
+      </h2>
+      <MostVotes points={points} anecdotes={anecdotes}/>
     </div>
   )
 }
