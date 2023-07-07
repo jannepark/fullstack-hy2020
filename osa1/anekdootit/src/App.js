@@ -9,7 +9,7 @@ const Button = ({ handleClick,text}) =>
 const MostVotes = ({points,anecdotes}) => {
   const result = points.indexOf(Math.max(...points))
   console.log(points)
-  if (Math.max(...points) == 0) {
+  if (Math.max(...points) === 0) {
     return (
       <>
         <p>No votes yet</p>
