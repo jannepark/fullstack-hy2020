@@ -1,10 +1,10 @@
 const Notification = ({notification }) => {
-  if (notification === null) {
+  if (notification.message === null) {
     return null
   }
   return (
-    <div className="error">
-      {notification}
+    <div className={notification.type}>
+      {notification.message}
     </div>
   )
 }

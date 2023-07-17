@@ -8,11 +8,13 @@ import Notification from './components/Notification'
 const App = () => {
 
   const [persons, setPersons] = useState([])
-
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setFilter] = useState('')
-  const [notification, setNotification] = useState(null)
+  const [notification, setNotification] = useState({
+    message: null,
+    type: null
+  })
 
   useEffect(() => {
     numberService
@@ -36,25 +38,30 @@ const App = () => {
         const duplicatePerson = persons.find((person) =>
           person.name === newPersonObject.name)
         numberService.update(duplicatePerson.id, newPersonObject)
-        .then(returnedPerson => {
-          setPersons(persons.map(person => 
-            person.id !== duplicatePerson.id ? person : returnedPerson))
+          .then(returnedPerson => {
+            setPersons(persons.map(person =>
+              person.id !== duplicatePerson.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
-            setNotification(`Updated number for ${returnedPerson.name}`)
+            setNotification({
+              message: `Updated number for ${returnedPerson.name}`,
+              type: 'notification'
+            })
             setTimeout(() => {
-              setNotification(null)
-            },5000)
+              setNotification({ message: null, type: null })
+            }, 5000)
           }
           )
-        .catch(error => {
-          setPersons(persons.filter(person => person.id !== duplicatePerson.id))
-          setNotification(`'${duplicatePerson.name}' is already deleted from server`)
-          setTimeout(() => {
-            setNotification(null)
-          },5000)
-        })
-
+          .catch(error => {
+            setPersons(persons.filter(person => person.id !== duplicatePerson.id))
+            setNotification({
+              message: `'${duplicatePerson.name}' is already deleted from server`,
+              type: 'error'
+            })
+            setTimeout(() => {
+              setNotification({ message: null, type: null })
+            }, 5000)
+          })
       }
     } else {
       numberService
@@ -63,10 +70,13 @@ const App = () => {
           setPersons(persons.concat(returnedObject))
           setNewName('')
           setNewNumber('')
-          setNotification(`Added ${returnedObject.name}`)
+          setNotification({
+            message: `Added ${returnedObject.name}`,
+            type: 'notification'
+          })
           setTimeout(() => {
-            setNotification(null)
-          },5000)
+            setNotification({ message: null, type: null })
+          }, 5000)
         })
     }
 
@@ -92,20 +102,26 @@ const App = () => {
           .getAll()
           .then(returnedPersons => {
             setPersons(returnedPersons)
-            setNotification(`Deleted ${personToRemove.name}`)
+            setNotification({
+              message: `Deleted ${personToRemove.name}`,
+              type: 'notification'
+            })
             setTimeout(() => {
-              setNotification(null)
-            },5000)
+              setNotification({ message: null, type: null })
+            }, 5000)
           })
-        })
-        .catch (error => {
-          setNotification(`'${personToRemove.name}' is already deleted from server`)
+      })
+        .catch(error => {
+          setNotification({
+            message: `'${personToRemove.name}' is already deleted from server`,
+            type: 'error'
+          })
           setTimeout(() => {
-            setNotification(null)
-          },5000)
+            setNotification({ message: null, type: null })
+          }, 5000)
           setPersons(persons.filter(person => person.id !== personToRemove.id))
         })
-      
+
 
   }
   return (
