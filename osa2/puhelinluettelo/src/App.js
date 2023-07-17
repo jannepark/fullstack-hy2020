@@ -55,7 +55,7 @@ const App = () => {
           .catch(error => {
             setPersons(persons.filter(person => person.id !== duplicatePerson.id))
             setNotification({
-              message: `'${duplicatePerson.name}' is already deleted from server`,
+              message: `Information of ${duplicatePerson.name} has already been deleted from server`,
               type: 'error'
             })
             setTimeout(() => {
@@ -113,7 +113,7 @@ const App = () => {
       })
         .catch(error => {
           setNotification({
-            message: `'${personToRemove.name}' is already deleted from server`,
+            message: `Information of ${personToRemove.name} has already been deleted from server`,
             type: 'error'
           })
           setTimeout(() => {
