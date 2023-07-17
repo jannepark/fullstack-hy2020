@@ -3,6 +3,7 @@ import Persons from './components/Persons'
 import NewPersonForm from './components/NewPersonForm'
 import Filter from './components/Filter'
 import numberService from './services/numbers'
+import Notification from './components/Notification'
 
 const App = () => {
 
@@ -11,9 +12,9 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setFilter] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
-    console.log('effect')
     numberService
       .getAll()
       .then(initialNumbers => {
@@ -38,12 +39,20 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.map(person => 
             person.id !== duplicatePerson.id ? person : returnedPerson))
-        })
-        .catch(error => {
-          alert(
-            `'${duplicatePerson.name}' was already deleted from server`
+            setNewName('')
+            setNewNumber('')
+            setNotification(`Updated number for ${returnedPerson.name}`)
+            setTimeout(() => {
+              setNotification(null)
+            },5000)
+          }
           )
+        .catch(error => {
           setPersons(persons.filter(person => person.id !== duplicatePerson.id))
+          setNotification(`'${duplicatePerson.name}' is already deleted from server`)
+          setTimeout(() => {
+            setNotification(null)
+          },5000)
         })
 
       }
@@ -54,6 +63,10 @@ const App = () => {
           setPersons(persons.concat(returnedObject))
           setNewName('')
           setNewNumber('')
+          setNotification(`Added ${returnedObject.name}`)
+          setTimeout(() => {
+            setNotification(null)
+          },5000)
         })
     }
 
@@ -71,19 +84,34 @@ const App = () => {
     (person) => person.name.toLowerCase().includes(newFilter.toLocaleLowerCase())
   )
   const removePerson = (person) => {
-    if (window.confirm(`Delete ${person.name} ?`))
-      numberService.remove(person.id).then(() => {
+    const personToRemove = person
+    console.log(personToRemove)
+    if (window.confirm(`Delete ${personToRemove.name} ?`))
+      numberService.remove(personToRemove.id).then(() => {
         numberService
           .getAll()
           .then(returnedPersons => {
             setPersons(returnedPersons)
+            setNotification(`Deleted ${personToRemove.name}`)
+            setTimeout(() => {
+              setNotification(null)
+            },5000)
           })
-      })
+        })
+        .catch (error => {
+          setNotification(`'${personToRemove.name}' is already deleted from server`)
+          setTimeout(() => {
+            setNotification(null)
+          },5000)
+          setPersons(persons.filter(person => person.id !== personToRemove.id))
+        })
+      
 
   }
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <NewPersonForm addPerson={addPerson}
