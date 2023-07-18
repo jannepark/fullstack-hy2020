@@ -1,45 +1,36 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Filter from './components/Filter'
 
 const App = () => {
   const [value, setValue] = useState('')
-  const [countries, setCountries] = useState({})
-  const [country, setShowCountry] = useState(null)
+  const [countries, setCountries] = useState([])
+  const [newFilter, setFilter] = useState('')
 
   useEffect(() => {
-    console.log('effect run, country is now', country)
+    console.log('Haetaan tietoja palvelimelta')
+    axios
+     .get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
+      .then(response => {
+        console.log('Saatu tiedot palvelimelta')
+        setCountries(response.data)
+      })
+  }, [])
 
-    // skip if country is not defined
-    if (country) {
-      console.log('fetching exchange countries...')
-      axios
-        .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${value}`)
-        .then(response => {
-          console.log('Saatu palvelimelta')
-          setCountries(response.data)
-        })
-    }
-  }, [country])
-
-  const handleChange = (event) => {
-    setValue(event.target.value)
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value)
   }
-
-  const onSearch = (event) => {
-    event.preventDefault()
-    setShowCountry(value)
-  }
-
+  const filterCountries = countries.filter(
+    (country) => country.name.common.toString().toLowerCase().includes(newFilter.toLowerCase())
+  )
   return (
     <div>
-      <form onSubmit={onSearch}>
-        country: <input value={value} onChange={handleChange} />
-        <button type="submit">etsi maa</button>
-      </form>
-      <pre>
-        {JSON.stringify(countries, null, 2)}
-      </pre>
+      <Filter handleFilterChange={handleFilterChange} />
+      {filterCountries.map((country) => (
+        <div key={country.name.common}>{country.name.common}</div>
+      ))}
     </div>
   )
 }
+
 export default App
