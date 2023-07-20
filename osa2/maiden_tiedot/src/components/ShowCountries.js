@@ -1,12 +1,12 @@
 import ShowDetails from './ShowDetails';
-const ShowCountries = ({ filterCountries, handleShowDetails, selectedCountry }) => {
+const ShowCountries = ({ filterCountries, handleShowDetails, selectedCountry}) => {
 
     if (filterCountries.length >= 10) {
-        return <div>Too many matches, specify another filter</div>;
+        return <div>Too many matches, specify another filter</div>
     }
 
     if (filterCountries.length === 1) {
-        return <ShowDetails filterCountries={filterCountries} />;
+        return <ShowDetails filterCountries={filterCountries} />
     }
 
     return (
