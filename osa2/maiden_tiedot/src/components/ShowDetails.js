@@ -6,21 +6,22 @@ const ShowDetails = ({ filterCountries }) => {
     const languages = showCountryInfo.languages
     const api_key = process.env.REACT_APP_API_KEY
     const baseIconUrl = "http://openweathermap.org/img/w/"
-    console.log("tapahtuu")
     const [weatherForCountry, setWeatherForCountry] = useState(null)
 
     useEffect(() => {
-        console.log("tapahtuu2")
-        if (showCountryInfo) {
-            axios
-                .get(`https://api.openweathermap.org/data/2.5/weather?q=${showCountryInfo.capital[0]}&appid=${api_key}&units=metric`)
-                .then(response => {
-                    setWeatherForCountry(response.data)
-                    console.log('Saatu tiedot palvelimelta')
-                    console.log(response.data)
-                })
-        }
-    }, [showCountryInfo])
+        console.log('Haetaan SÄÄ tietoja palvelimelta')
+        axios
+            .get(`https://api.openweathermap.org/data/2.5/weather?q=${showCountryInfo.capital[0]}&appid=${api_key}&units=metric`)
+            .then(response => {
+                setWeatherForCountry(response.data)
+                console.log('Saatu SÄÄ tiedot palvelimelta')
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log("Sään haku palvelimelta epäonnistui")
+            })
+    }, [showCountryInfo.capital, api_key])
+
     return (
         <div>
             <h2>
@@ -43,7 +44,9 @@ const ShowDetails = ({ filterCountries }) => {
                 <>
                     <h3>Weather in {showCountryInfo.name.common}, {showCountryInfo.capital[0]} </h3>
                     <p>Temperature {weatherForCountry.main.temp} Celsius</p>
-                    <img src={`${baseIconUrl}${weatherForCountry.weather[0].icon}.png`} />
+                    <img src={`${baseIconUrl}${weatherForCountry.weather[0].icon}.png`}
+                        alt={`Weather icon for ${showCountryInfo.capital[0]}`}
+                    />
                     <p>Wind {weatherForCountry.wind.speed} m/s</p>
                 </>
             )}

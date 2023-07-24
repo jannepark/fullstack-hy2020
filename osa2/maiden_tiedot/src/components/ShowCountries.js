@@ -1,4 +1,4 @@
-import ShowDetails from './ShowDetails';
+import ShowDetails from './ShowDetails'
 const ShowCountries = ({ filterCountries, handleShowDetails, selectedCountry}) => {
 
     if (filterCountries.length >= 10) {
