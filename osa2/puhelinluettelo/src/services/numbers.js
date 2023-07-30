@@ -23,9 +23,10 @@ const update = (id, newObject) => {
   }
   
 
-export default { 
+const numberService = { 
   getAll: getAll, 
   create: create, 
   remove: remove,
   update: update
 }
+export default numberService
