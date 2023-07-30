@@ -53,15 +53,28 @@ const App = () => {
           }
           )
           .catch(error => {
-            setPersons(persons.filter(person => person.id !== duplicatePerson.id))
-            setNotification({
-              message: `Information of ${duplicatePerson.name} has already been deleted from server`,
-              type: 'error'
-            })
-            setTimeout(() => {
-              setNotification({ message: null, type: null })
-            }, 5000)
-          })
+            console.log(error.response.data.error)
+
+            if (error.response.data.error.startsWith("Validation failed: number:")) {
+              setNotification({
+                message: `${error.response.data.error}`,
+                type: 'error'
+              });
+              setTimeout(() => {
+                setNotification({ message: null, type: null });
+              }, 5000);
+            }
+            else {
+              setPersons(persons.filter(person => person.id !== duplicatePerson.id));
+              setNotification({
+                message: `Information of ${duplicatePerson.name} has already been deleted from the server`,
+                type: 'error'
+              });
+              setTimeout(() => {
+                setNotification({ message: null, type: null });
+              }, 5000);
+            }
+          });
       }
     } else {
       numberService
