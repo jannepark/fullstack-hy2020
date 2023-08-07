@@ -1,9 +1,9 @@
-POST http://localhost:3003/api/blogs
+POST http://localhost:3002/api/blogs
 Content-Type: application/json
 
 {
-  "title": "syökää lihaa",
-  "author": "tööt",
-  "url": "www.google.fi",
-  "likes": "99"
+  "title": "pastaa1",
+  "author": "rop2",
+  "url": "www.goo333gles.fi",
+  "likes": "11"
 }
