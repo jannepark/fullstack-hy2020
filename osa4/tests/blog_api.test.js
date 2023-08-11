@@ -63,29 +63,40 @@ test('a valid note can be added ', async () => {
     expect(contents).toContain(
       'pastaa322'
     )
-  })
-  test('if default value of 0 is set if likes is missing', async () => {
-    const newBlog = {
-        "title": "pastaa322",
-        "author": "rop33",
-        "url": "www.goo311343gles.fi",
-        // "likes": "4"
-      }
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
+})
+test('default value of 0 is set, if likes field is missing', async () => {
+  const newBlog = {
+      "title": "pastaa322",
+      "author": "rop33",
+      "url": "www.goo311343gles.fi",
+      // "likes": "4"
+    }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')
-    response.body.forEach(r => {
-      if(r.title === "pastaa322") {
-        expect(r.likes).toBe(0)
-      }
+  const response = await api.get('/api/blogs')
+  response.body.forEach(r => {
+    if(r.title === "pastaa322") {
+      expect(r.likes).toBe(0)
+    }
   })
-  
+})
+test('400 bad response is sent if title or url missing ', async () => {
+  const newBlog = {
+      // "title": "pastaa322",
+      "author": "rop33",
+      // "url": "www.goo311343gles.fi",
+      "likes": "4"
+    }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
 
-  })
-  afterAll(async () => {
-    await mongoose.connection.close()
-  })
+})
+afterAll(async () => {
+  await mongoose.connection.close()
+})
