@@ -1,9 +1,8 @@
-POST http://localhost:3002/api/blogs
+POST http://localhost:3002/api/users
 Content-Type: application/json
 
 {
-  "title": "pastaa1",
-  "author": "rop2",
-  "url": "www.goo333gles.fi",
-  "likes": "11"
+  "username": "testiukko1",
+  "name": "Testi Ukko1",
+  "password": "tosisalainen1",
 }
