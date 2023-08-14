@@ -1,8 +1,9 @@
-POST http://localhost:3002/api/users
+POST http://localhost:3002/api/blogs
 Content-Type: application/json
 
 {
-  "username": "testiukko1",
-  "name": "Testi Ukko1",
-  "password": "tosisalainen1",
+    "title": "Go To Statement",
+    "author": "Edsger W. Dijkstra2",
+    "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    "likes": 52
 }

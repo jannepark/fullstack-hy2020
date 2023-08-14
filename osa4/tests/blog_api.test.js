@@ -22,7 +22,9 @@ const initialBlogs = [
         "likes": "3"
       },
 ]
-describe('when there is initially some notes saved', () =>{
+
+// Blogien testaukset rikki!!
+describe('when there is initially some blogs saved', () =>{
 
   beforeEach(async () => {
       await Blog.deleteMany({})
@@ -138,7 +140,7 @@ describe('when there is initially one user at db', () => {
     await User.deleteMany({})
 
     const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
+    const user = new User({ username: 'root', name: 'Superuser', passwordHash })
 
     await user.save()
   })
@@ -183,6 +185,23 @@ describe('when there is initially one user at db', () => {
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+  test('creation fails woth preper statuscode and message if password too short', async () => {
+    const usersAtStart = await helper.usersInDb()
+    const newUser = {
+      username: 'notroot',
+      name: 'NotSuperuser',
+      password: 'sa',
+    }
+    const result = await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('invalid password')
+  const usersAtEnd = await helper.usersInDb()
+  expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
 })
 afterAll(async () => {
