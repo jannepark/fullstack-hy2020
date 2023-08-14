@@ -1,9 +1,10 @@
 POST http://localhost:3002/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hdHRpIiwiaWQiOiI2NGRhMDFlZDU0YjY0ZTc5NmVjMTI2ZjUiLCJpYXQiOjE2OTIwMTQ0NTV9.MnVWPOVgiBhJXbWWqjIYI1p69nOrWFP9jwSLHS2vDS0
 
 {
-    "title": "Go To Statement",
-    "author": "Edsger W. Dijkstra2",
+    "title": "coool title95",
+    "author": "Matti Mallikas323",
     "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    "likes": 52
+    "likes": 6722
 }
