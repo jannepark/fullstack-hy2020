@@ -12,16 +12,6 @@ const totalLikes = (blogs) => {
     ? 0
     : blogs.reduce(sumOfLikes, 0)
 }
-// const favoriteBlog = (blogs) => {
-//      const maxLikes = blogs.reduce((current, next) => {
-//         console.log(current);
-
-//         return Math.max(current, next.likes);
-//       }, 0);
-      
-//       console.log("Max Likes:", maxLikes);
-//       return maxLikes
-// }
 const favoriteBlog = (blogs) => {
     if (blogs.length === 0 ) {
         return null

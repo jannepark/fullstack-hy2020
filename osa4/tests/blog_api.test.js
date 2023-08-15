@@ -30,7 +30,6 @@ const initialBlogs = [
       }
 ]
 
-// Blogien testaukset rikki!!
 describe('when there is initially some blogs saved', () =>{
 
   beforeEach(async () => {
@@ -49,12 +48,7 @@ describe('when there is initially some blogs saved', () =>{
       .post('/api/login')
       .send(user)
     const token = login.body.token
-      // await api
-      //   .post('/api/blogs')
-      //   .set('Authorization', `Bearer ${token}`)
-      //   .send(initialBlogs[0])
-      //   .expect(201)
-      //   .expect('Content-Type', /application\/json/)
+ 
         for (const blog of initialBlogs) {
           await api
             .post("/api/blogs")
@@ -63,13 +57,6 @@ describe('when there is initially some blogs saved', () =>{
             .expect(201)
             .expect('Content-Type', /application\/json/)
         }
-          // let blogObject = new Blog(initialBlogs[0])
-          // await blogObject.save()
-          // blogObject = new Blog(initialBlogs[1])
-          // await blogObject.save()
-
-
-
       })
 
   describe('returning of blogs', () => {
@@ -78,8 +65,6 @@ describe('when there is initially some blogs saved', () =>{
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/)
-
-      console.log(blogs.body)
     })
 
     test('blogs id is id', async () => {
@@ -128,9 +113,7 @@ describe('when there is initially some blogs saved', () =>{
       const login = await api
         .post('/api/login')
         .send(user)
-        console.log(login.body)
       const token = login.body.token
-console.log(token)
       const newBlog = {
         "title": "Uusi_blogi",
         "author": "Tuntematon",
@@ -172,6 +155,20 @@ console.log(token)
         .set('Authorization', `Bearer ${token} ` )
         .send(newBlog)
         .expect(400)
+    })
+    test('401 Unauthorized response if token missing or invalid', async () => {
+      const token = "invalid token"
+      const newBlog = {
+        "title": "Uusi_blogi",
+        "author": "Tuntematon",
+        "url": "www.blogi3.fi",
+        "likes": "1"
+      }
+      await api
+        .post('/api/blogs')
+        .set('Authorization', `Bearer ${token} ` )
+        .send(newBlog)
+        .expect(401)
     })
   })
   describe('deletion of a blog', () => {
@@ -266,7 +263,7 @@ describe('when there is initially one user at db', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
-  test('creation fails woth preper statuscode and message if password too short', async () => {
+  test('creation fails with proper statuscode and message if password too short', async () => {
     const usersAtStart = await helper.usersInDb()
     const newUser = {
       username: 'notroot',
