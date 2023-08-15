@@ -1,10 +1,10 @@
 POST http://localhost:3002/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hdHRpIiwiaWQiOiI2NGRhMDFlZDU0YjY0ZTc5NmVjMTI2ZjUiLCJpYXQiOjE2OTIwMTkxNTcsImV4cCI6MTY5MjAxOTE1OH0.t07xJ-RAftp0RUncuYyyn5xQCBo7aS97LrDYPGrHUjg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hdHRpIiwiaWQiOiI2NGRhMDFlZDU0YjY0ZTc5NmVjMTI2ZjUiLCJpYXQiOjE2OTIwOTg4MDYsImV4cCI6MTY5MjEwMjQwNn0.XeHyZ8ppNSgBJqEXHJdZcjqMxYPn3tOmS7XSRtPhDG4
 
 {
-    "title": "coool title933533",
-    "author": "Matti Mallikas3333223",
+    "title": "coool title93353322442",
+    "author": "Matti Mallikas33332233333",
     "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
     "likes": 67232
 }

@@ -23,7 +23,7 @@ console.log("häh")
   }
 
   const token = jwt.sign(userForToken, process.env.SECRET,
-    { expiresIn: 1*1 }
+    { expiresIn: 60*60 }
   )
 
   response

@@ -37,9 +37,8 @@ const getTokenFrom = request => {
     return authorization.replace('Bearer ', '')
     }
       return null}
-      
+
 const tokenExtractor = (request, response, next) => {
-  console.log("ollaan tokenextrassa")
   const token = getTokenFrom(request)
   request.token = token
   next()

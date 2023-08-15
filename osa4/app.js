@@ -12,6 +12,7 @@ const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const middleware = require('./utils/middleware')
 const loginRouter = require('./controllers/login')
+
 mongoose.connect(config.MONGODB_URI)
 
 app.use(cors())
