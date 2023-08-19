@@ -66,6 +66,7 @@ const App = () => {
     window.localStorage.clear()
     window.location.reload();
   }
+
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
   
@@ -92,7 +93,6 @@ const App = () => {
     }
   }
   
-
   if (user === null) {
     return (
       <LoginForm
@@ -121,7 +121,11 @@ const App = () => {
       </Togglable>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog}  />
+          <Blog key={blog.id} 
+          blog={blog} 
+          user={user} 
+          setBlogs={setBlogs} 
+          blogs={blogs}/>
         )}
       </div>
     </>
