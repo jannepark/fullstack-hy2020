@@ -12,7 +12,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const noteFormRef = useRef()
+  const blogFormRef = useRef()
 
   const [notification, setNotification] = useState({
     message: null,
@@ -59,39 +59,39 @@ const App = () => {
       }
     }
   }
+
   const handleLogout = (event) => {
     event.preventDefault()
     console.log("logging out")
     window.localStorage.clear()
     window.location.reload();
   }
-  const addBlog = (blogObject) => {
-    console.log("lisää")
-    noteFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
+  const addBlog = async (blogObject) => {
+    blogFormRef.current.toggleVisibility()
+  
+    try {
+      const returnedBlog = await blogService.create(blogObject)
+      setBlogs(blogs.concat(returnedBlog))
+      setNotification({
+        message: `Created new blog ${blogObject.title}`,
+        type: 'notification'
+      })
+      setTimeout(() => {
+        setNotification({ message: null, type: null })
+      }, 5000)
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
         setNotification({
-          message: `Created new blog ${blogObject.title}`,
-          type: 'notification'
+          message: `${error.response.data.error}`,
+          type: 'error'
         })
         setTimeout(() => {
           setNotification({ message: null, type: null })
         }, 5000)
-      })
-      .catch(error => {
-        if (error.response.status === 401) {
-          setNotification({
-            message: `${error.response.data.error}`,
-            type: 'error'
-          });
-          setTimeout(() => {
-            setNotification({ message: null, type: null });
-          }, 5000);
-        }
-      })
+      }
+    }
   }
+  
 
   if (user === null) {
     return (
@@ -116,12 +116,12 @@ const App = () => {
         </div>
       </div>
       <h2>Create new</h2>
-      <Togglable buttonLabel="New blog" ref={noteFormRef}>
+      <Togglable buttonLabel="New blog" ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog}  />
         )}
       </div>
     </>
