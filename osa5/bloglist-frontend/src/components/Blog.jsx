@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
-const Blog = ({ blog, user, setBlogs, blogs}) => {
+const Blog = ({ blog, user, setBlogs }) => {
 
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const toggleViewAll = () => {
     setVisible(!visible)
   }
-
+  Blog.propTypes = {
+    blog: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    setBlogs: PropTypes.func.isRequired
+  }
   const likeBlog = async () => {
     try {
       const newLikes = likes + 1
@@ -21,29 +26,23 @@ const Blog = ({ blog, user, setBlogs, blogs}) => {
       }
       const response = await blogService.update(blog.id, blogObject)
       setLikes(likes + 1)
-      console.log(likes)
       return response
     }
     catch (error) {
       console.log(error)
     }
   }
-  
-  const removeBlog = async () => {
-    try { 
-      console.log(user,blog.user.id)
-      if(user.name === blog.user.name) {
-        console.log("Täsmää")
-        if (window.confirm("Do you really want delete this blog?")) {
-          console.log("poistetaan")
-          const response = await blogService.remove(blog.id)
-          const toRemoveId = blog.id
-          setBlogs((blogs) =>
-          blogs.filter((blog) => blog.id !== toRemoveId))
 
-          return response
-        }
+  const removeBlog = async () => {
+    try {
+      if (window.confirm('Do you really want delete this blog?')) {
+        const response = await blogService.remove(blog.id)
+        const toRemoveId = blog.id
+        setBlogs((blogs) =>
+          blogs.filter((blog) => blog.id !== toRemoveId))
+        return response
       }
+
     }
     catch (error) {
       console.log(error)
@@ -51,8 +50,9 @@ const Blog = ({ blog, user, setBlogs, blogs}) => {
   }
 
   const showDel = () => {
-    if(user.name === blog.user.name) {
-      return <button type="submit" onClick={removeBlog}>delete</button>
+    if (user.name === blog.user.name) {
+      const response = <button type="submit" onClick={removeBlog}>delete</button>
+      return response
     }
     return null
   }
@@ -71,9 +71,9 @@ const Blog = ({ blog, user, setBlogs, blogs}) => {
             <button type="submit" onClick={likeBlog}>Like</button>
           </p>
           <p>{blog.user.name}</p>
-        <div>
-          {showDel()}
-        </div>
+          <div>
+            {showDel()}
+          </div>
         </div>
       </div>
     )

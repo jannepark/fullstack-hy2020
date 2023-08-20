@@ -52,24 +52,24 @@ const App = () => {
         setNotification({
           message: `${error.response.data.error}`,
           type: 'error'
-        });
+        })
         setTimeout(() => {
-          setNotification({ message: null, type: null });
-        }, 5000);
+          setNotification({ message: null, type: null })
+        }, 5000)
       }
     }
   }
 
   const handleLogout = (event) => {
     event.preventDefault()
-    console.log("logging out")
+    console.log('logging out')
     window.localStorage.clear()
-    window.location.reload();
+    window.location.reload()
   }
 
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
-  
+
     try {
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
@@ -92,7 +92,7 @@ const App = () => {
       }
     }
   }
-  
+
   if (user === null) {
     return (
       <LoginForm
@@ -121,11 +121,11 @@ const App = () => {
       </Togglable>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} 
-          blog={blog} 
-          user={user} 
-          setBlogs={setBlogs} 
-          blogs={blogs}/>
+          <Blog key={blog.id}
+            blog={blog}
+            user={user}
+            setBlogs={setBlogs}
+          />
         )}
       </div>
     </>
