@@ -13,6 +13,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
+  // const [likes, setLikes] = useState(blog.likes)
 
   const [notification, setNotification] = useState({
     message: null,
@@ -65,6 +66,17 @@ const App = () => {
     console.log('logging out')
     window.localStorage.clear()
     window.location.reload()
+  }
+  const likeBlog = async (blogObject) => {
+    try {
+      await blogService.update(blogObject.id, blogObject)
+      const index = blogs.indexOf(blogs.find((blog) => blog.id === blogObject.id))
+      const newBlogs = [...blogs]
+      newBlogs[index].likes += 1
+      setBlogs(newBlogs)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const addBlog = async (blogObject) => {
@@ -125,6 +137,7 @@ const App = () => {
             blog={blog}
             user={user}
             setBlogs={setBlogs}
+            likeBlog={likeBlog}
           />
         )}
       </div>

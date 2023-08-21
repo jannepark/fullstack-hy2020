@@ -2,10 +2,9 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, user, setBlogs }) => {
+const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
 
   const [visible, setVisible] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
   const toggleViewAll = () => {
     setVisible(!visible)
   }
@@ -14,23 +13,17 @@ const Blog = ({ blog, user, setBlogs }) => {
     user: PropTypes.object.isRequired,
     setBlogs: PropTypes.func.isRequired
   }
-  const likeBlog = async () => {
-    try {
-      const newLikes = likes + 1
-      const blogObject = {
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: newLikes,
-        user: blog.user.id
-      }
-      const response = await blogService.update(blog.id, blogObject)
-      setLikes(likes + 1)
-      return response
+
+  const addLike= () => {
+    const blogObject = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes +1,
+      user: blog.user.id,
+      id: blog.id
     }
-    catch (error) {
-      console.log(error)
-    }
+    handleLikeBlog(blogObject)
   }
 
   const removeBlog = async () => {
@@ -67,8 +60,8 @@ const Blog = ({ blog, user, setBlogs }) => {
           </p>
           <p>{blog.author}</p>
           <p>{blog.url}</p>
-          <p>{likes}
-            <button type="submit" onClick={likeBlog}>Like</button>
+          <p>{blog.likes}
+            <button type="submit" onClick={addLike}>Like</button>
           </p>
           <p>{blog.user.name}</p>
           <div>
