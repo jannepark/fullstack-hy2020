@@ -82,7 +82,7 @@ const Blog = ({ blog, user, setBlogs }) => {
     <>
       <div className="blogStyle">
         <p>
-          {blog.title} -  {blog.author}
+          {blog.title} - {blog.author}
           <button type="submit" onClick={toggleViewAll}>view</button>
         </p>
       </div>
