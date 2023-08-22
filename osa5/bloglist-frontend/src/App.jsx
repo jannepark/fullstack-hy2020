@@ -124,7 +124,7 @@ const App = () => {
         <Notification notification={notification} />
         <div>
           {user.name} logged in
-          <button type="submit" onClick={handleLogout}>logout</button>
+          <button type="submit" onClick={handleLogout} id='logout'>logout</button>
         </div>
       </div>
       <h2>Create new</h2>

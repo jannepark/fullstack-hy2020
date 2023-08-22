@@ -44,7 +44,7 @@ const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
 
   const showDel = () => {
     if (user.name === blog.user.name) {
-      const response = <button type="submit" onClick={removeBlog}>delete</button>
+      const response = <button type="submit" onClick={removeBlog} id='removeBlog'>delete</button>
       return response
     }
     return null
@@ -56,12 +56,12 @@ const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
         <div>
           <p>
             {blog.title}
-            <button type="submit" onClick={toggleViewAll}>hide</button>
+            <button type="submit" onClick={toggleViewAll} id='hideBlogInfo'>hide</button>
           </p>
           <p>{blog.author}</p>
           <p>{blog.url}</p>
           <p>{blog.likes}
-            <button type="submit" onClick={addLike}>Like</button>
+            <button type="submit" onClick={addLike} id='likeBlog'>Like</button>
           </p>
           <p>{blog.user.name}</p>
           <div>
@@ -76,7 +76,7 @@ const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
       <div className="blogStyle">
         <p>
           {blog.title} - {blog.author}
-          <button type="submit" onClick={toggleViewAll}>view</button>
+          <button type="submit" onClick={toggleViewAll} id='viewBlogInfo'>view</button>
         </p>
       </div>
     </>
