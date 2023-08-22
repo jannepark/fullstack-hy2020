@@ -67,7 +67,7 @@ const App = () => {
     window.localStorage.clear()
     window.location.reload()
   }
-  const likeBlog = async (blogObject) => {
+  const handleLikeBlog = async (blogObject) => {
     try {
       await blogService.update(blogObject.id, blogObject)
       const index = blogs.indexOf(blogs.find((blog) => blog.id === blogObject.id))
@@ -137,7 +137,7 @@ const App = () => {
             blog={blog}
             user={user}
             setBlogs={setBlogs}
-            likeBlog={likeBlog}
+            handleLikeBlog={handleLikeBlog}
           />
         )}
       </div>

@@ -33,6 +33,7 @@ const LoginForm = ({
               value={username}
               name="Username"
               onChange={handleUsernameChange}
+              id="username"
             />
           </div>
           <div>
@@ -42,10 +43,12 @@ const LoginForm = ({
               value={password}
               name="Password"
               onChange={handlePasswordChange}
+              id="password"
             />
           </div>
-          <button type="submit">login</button>
+          <button type="submit" id="login-button">login </button>
         </form>
+        <p>Department of Computer Science, University of Helsinki 2023</p>
       </div>
     </>
   )
