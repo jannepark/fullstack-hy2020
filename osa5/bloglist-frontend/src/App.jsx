@@ -13,7 +13,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
-  // const [likes, setLikes] = useState(blog.likes)
 
   const [notification, setNotification] = useState({
     message: null,
@@ -132,14 +131,16 @@ const App = () => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       <div>
-        {blogs.map(blog =>
-          <Blog key={blog.id}
-            blog={blog}
-            user={user}
-            setBlogs={setBlogs}
-            handleLikeBlog={handleLikeBlog}
-          />
-        )}
+        {blogs
+          .sort(( i, j ) => j.likes - i.likes)
+          .map(blog =>
+            <Blog key={blog.id}
+              blog={blog}
+              user={user}
+              setBlogs={setBlogs}
+              handleLikeBlog={handleLikeBlog}
+            />
+          )}
       </div>
     </>
   )

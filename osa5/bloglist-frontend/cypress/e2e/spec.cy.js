@@ -75,14 +75,24 @@ describe('Blog app', function() {
       cy.request('POST', 'http://localhost:3002/api/users/', user)
       cy.visit('http://localhost:3000')
       cy.login({ username: 'kakkonen', password: 'onykkönen' })
-      // cy.contains('New blog').click()
-      // cy.get('#title-Input').type('kakkosen blogi')
-      // cy.get('#author-Input').type('tämän kirjoitti kakkonen')
-      // cy.get('#url-Input').type('testi osoite2')
-      // cy.get('#create-blog').click()
       cy.contains('uusi blogi')
       cy.get('#viewBlogInfo').click()
       cy.contains('delete').should('not.exist')
+    })
+    it('confirm order of blogs by likes amount', function() {
+      cy.createBlog({ title:'toiseksi eniten tykkäyksiä', author:'toka otsikko',
+        url:'osoite', likes: '5' })
+      cy.createBlog({ title:'eniten tykkäyksiä', author:'eka otsikko',
+        url:'osoite', likes: '15' })
+      cy.createBlog({ title:'kolmannneksi eniten tykkäyksiä', author:'kolmas otsikko',
+        url:'osoite', likes: '2' })
+
+      cy.get('[id=viewBlogInfo]').each(($button) => {
+        cy.wrap($button).click()
+      })
+      cy.get('.blogStyle').eq('0').should('contain', 'eniten tykkäyksiä')
+      cy.get('.blogStyle').eq('1').should('contain', 'toiseksi eniten tykkäyksiä')
+      cy.get('.blogStyle').eq('2').should('contain', 'kolmannneksi eniten tykkäyksiä')
     })
   })
 })
