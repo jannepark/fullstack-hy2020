@@ -14,12 +14,12 @@ const notificationSlice = createSlice({
     }
 })
 
-export const setNotification = (msg) => {
+export const setNotification = (msg, time) => {
     return dispatch => {
         dispatch(showNotification(msg))
         setTimeout(() => {
             dispatch(hideNotification())
-        }, 5000) 
+        }, time * 1000) 
     }
 }
 
