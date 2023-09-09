@@ -5,9 +5,16 @@ import { getAnecdotes } from './requests/requests'
 
 const App = () => {
 
+
   const handleVote = (anecdote) => {
     console.log('vote')
   }
+  // const addAnecdote = async (event => {
+  //   event.preventDefault()
+  //   const content = event.target.anecdote.value
+  //   event.target.anecdote.value = ''
+  //   newNoteMutation.mutate({ content })
+  // })
 
   const result = useQuery({
     queryKey: ['anecdotes'],
