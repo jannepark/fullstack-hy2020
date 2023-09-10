@@ -6,8 +6,8 @@ const AnecdoteForm = () => {
   const newAnecdoteMutation = useMutation({ 
     mutationFn: createAnecdote,
     onSuccess: (newAnecdote) => {
-      const anecdotes = queryClient.getQueryData({ queryKey: ['anecdotes'] })
-      queryClient.setQueryData({queryKey: ['anecdotes']}, anecdotes.concat(newAnecdote))
+      const currentAnecdotes = queryClient.getQueryData({ queryKey: ['anecdotes'] })
+      queryClient.setQueryData({queryKey: ['anecdotes']}, currentAnecdotes.concat(newAnecdote))
     }
   })
 
@@ -15,8 +15,7 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    console.log('new anecdote')
-    newAnecdoteMutation.mutate(content )
+    newAnecdoteMutation.mutate(content)
 }
 
   return (
