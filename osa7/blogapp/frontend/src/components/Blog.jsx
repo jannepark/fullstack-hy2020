@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
 
 const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
   const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch()
   const toggleViewAll = () => {
     setVisible(!visible)
   }
@@ -22,6 +25,7 @@ const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
       user: blog.user.id,
       id: blog.id,
     }
+    dispatch(setNotification(`Voted for: ${blog.title}`, 10))
     handleLikeBlog(blogObject)
   }
 

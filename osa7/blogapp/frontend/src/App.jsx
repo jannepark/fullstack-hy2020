@@ -6,6 +6,8 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import { useDispatch, useSelector } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,11 +15,12 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
+  const dispatch = useDispatch()
 
-  const [notification, setNotification] = useState({
-    message: null,
-    type: null,
-  })
+  // const [notification, setNotification] = useState({
+  //   message: null,
+  //   type: null,
+  // })
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -45,13 +48,14 @@ const App = () => {
       setPassword('')
     } catch (error) {
       if (error.response.status === 401) {
-        setNotification({
-          message: `${error.response.data.error}`,
-          type: 'error',
-        })
-        setTimeout(() => {
-          setNotification({ message: null, type: null })
-        }, 5000)
+        dispatch(setNotification(`${error.response.data.error}`, 5))
+        // setNotification({
+        //   message: `${error.response.data.error}`,
+        //   type: 'error',
+        // })
+        // setTimeout(() => {
+        //   setNotification({ message: null, type: null })
+        // }, 5000)
       }
     }
   }
@@ -76,28 +80,41 @@ const App = () => {
     }
   }
 
+  // const addBlog = async (blogObject) => {
+  //   blogFormRef.current.toggleVisibility()
+
+  //   try {
+  //     const returnedBlog = await blogService.create(blogObject)
+  //     setBlogs(blogs.concat(returnedBlog))
+  //     setNotification({
+  //       message: `Created new blog ${blogObject.title}`,
+  //       type: 'notification',
+  //     })
+  //     setTimeout(() => {
+  //       setNotification({ message: null, type: null })
+  //     }, 5000)
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 401) {
+  //       setNotification({
+  //         message: `${error.response.data.error}`,
+  //         type: 'error',
+  //       })
+  //       setTimeout(() => {
+  //         setNotification({ message: null, type: null })
+  //       }, 5000)
+  //     }
+  //   }
+  // }
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
 
     try {
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
-      setNotification({
-        message: `Created new blog ${blogObject.title}`,
-        type: 'notification',
-      })
-      setTimeout(() => {
-        setNotification({ message: null, type: null })
-      }, 5000)
+      dispatch(setNotification(`Created new blog ${blogObject.title}`, 5))
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        setNotification({
-          message: `${error.response.data.error}`,
-          type: 'error',
-        })
-        setTimeout(() => {
-          setNotification({ message: null, type: null })
-        }, 5000)
+        dispatch(setNotification(error.response.data.error, 5))
       }
     }
   }
@@ -110,7 +127,7 @@ const App = () => {
         handleUsernameChange={({ target }) => setUsername(target.value)}
         handlePasswordChange={({ target }) => setPassword(target.value)}
         handleSubmit={handleLogin}
-        notification={notification}
+        // notification={notification}
       />
     )
   }
@@ -118,7 +135,8 @@ const App = () => {
     <>
       <div>
         <h2>blogs</h2>
-        <Notification notification={notification} />
+        {/* <Notification notification={notification} /> */}
+        <Notification />
         <div>
           {user.name} logged in
           <button type="submit" onClick={handleLogout} id="logout">
