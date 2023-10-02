@@ -7,7 +7,6 @@ const LoginForm = ({
   handlePasswordChange,
   username,
   password,
-  // notification,
 }) => {
   LoginForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
@@ -15,7 +14,6 @@ const LoginForm = ({
     handlePasswordChange: PropTypes.func.isRequired,
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
-    // notification: PropTypes.object.isRequired,
   }
 
   return (

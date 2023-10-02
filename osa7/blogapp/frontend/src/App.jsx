@@ -8,7 +8,7 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
-import { initializeBlogs, createBlog, voteBlog } from './reducers/blogReducer'
+import { initializeBlogs, createBlog, likeBlog } from './reducers/blogReducer'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -59,7 +59,7 @@ const App = () => {
   }
   const handleLikeBlog = async (blogObject) => {
     try {
-      dispatch(voteBlog(blogObject.id))
+      dispatch(likeBlog(blogObject.id))
     } catch (error) {
       console.log(error)
     }
@@ -67,15 +67,15 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
-
-    try {
-      dispatch(createBlog(blogObject))
-      dispatch(setNotification(`Created new blog ${blogObject.title}`, 5))
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        dispatch(setNotification(error.response.data.error, 5))
-      }
-    }
+    dispatch(createBlog(blogObject))
+    // try {
+    //   dispatch(createBlog(blogObject))
+    //   dispatch(setNotification(`Created new blog ${blogObject.title}`, 5))
+    // } catch (error) {
+    //   if (error.response && error.response.status === 401) {
+    //     dispatch(setNotification(error.response.data.error, 5))
+    //   }
+    // }
   }
 
   if (user === null) {
@@ -121,18 +121,6 @@ const App = () => {
         ) : (
           <p>Loading blogs...</p>
         )}
-
-        {/* {blogs
-          .sort((i, j) => j.likes - i.likes)
-          .map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              user={user}
-              // setBlogs={setBlogs}
-              handleLikeBlog={handleLikeBlog}
-            />
-          ))} */}
       </div>
     </>
   )

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
@@ -14,7 +13,6 @@ const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
   Blog.propTypes = {
     blog: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    // setBlogs: PropTypes.func.isRequired,
   }
 
   const addLike = () => {
