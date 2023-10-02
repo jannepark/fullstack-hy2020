@@ -3,6 +3,7 @@ import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
+import { deleteBlog } from '../reducers/blogReducer'
 
 const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
   const [visible, setVisible] = useState(false)
@@ -13,7 +14,7 @@ const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
   Blog.propTypes = {
     blog: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    setBlogs: PropTypes.func.isRequired,
+    // setBlogs: PropTypes.func.isRequired,
   }
 
   const addLike = () => {
@@ -30,15 +31,8 @@ const Blog = ({ blog, user, setBlogs, handleLikeBlog }) => {
   }
 
   const removeBlog = async () => {
-    try {
-      if (window.confirm('Do you really want delete this blog?')) {
-        const response = await blogService.remove(blog.id)
-        const toRemoveId = blog.id
-        setBlogs((blogs) => blogs.filter((blog) => blog.id !== toRemoveId))
-        return response
-      }
-    } catch (error) {
-      console.log(error)
+    if (window.confirm('Do you really want delete this blog?')) {
+      dispatch(deleteBlog(blog))
     }
   }
 

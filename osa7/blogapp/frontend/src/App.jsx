@@ -8,23 +8,20 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
+import { initializeBlogs, createBlog, voteBlog } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
   const dispatch = useDispatch()
 
-  // const [notification, setNotification] = useState({
-  //   message: null,
-  //   type: null,
-  // })
-
+  const blogs = useSelector((state) => state.blog)
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
     if (loggedUserJSON) {
@@ -33,6 +30,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with', username, password)
@@ -49,13 +47,6 @@ const App = () => {
     } catch (error) {
       if (error.response.status === 401) {
         dispatch(setNotification(`${error.response.data.error}`, 5))
-        // setNotification({
-        //   message: `${error.response.data.error}`,
-        //   type: 'error',
-        // })
-        // setTimeout(() => {
-        //   setNotification({ message: null, type: null })
-        // }, 5000)
       }
     }
   }
@@ -68,49 +59,17 @@ const App = () => {
   }
   const handleLikeBlog = async (blogObject) => {
     try {
-      await blogService.update(blogObject.id, blogObject)
-      const index = blogs.indexOf(
-        blogs.find((blog) => blog.id === blogObject.id),
-      )
-      const newBlogs = [...blogs]
-      newBlogs[index].likes += 1
-      setBlogs(newBlogs)
+      dispatch(voteBlog(blogObject.id))
     } catch (error) {
       console.log(error)
     }
   }
 
-  // const addBlog = async (blogObject) => {
-  //   blogFormRef.current.toggleVisibility()
-
-  //   try {
-  //     const returnedBlog = await blogService.create(blogObject)
-  //     setBlogs(blogs.concat(returnedBlog))
-  //     setNotification({
-  //       message: `Created new blog ${blogObject.title}`,
-  //       type: 'notification',
-  //     })
-  //     setTimeout(() => {
-  //       setNotification({ message: null, type: null })
-  //     }, 5000)
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 401) {
-  //       setNotification({
-  //         message: `${error.response.data.error}`,
-  //         type: 'error',
-  //       })
-  //       setTimeout(() => {
-  //         setNotification({ message: null, type: null })
-  //       }, 5000)
-  //     }
-  //   }
-  // }
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
 
     try {
-      const returnedBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(returnedBlog))
+      dispatch(createBlog(blogObject))
       dispatch(setNotification(`Created new blog ${blogObject.title}`, 5))
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -135,7 +94,6 @@ const App = () => {
     <>
       <div>
         <h2>blogs</h2>
-        {/* <Notification notification={notification} /> */}
         <Notification />
         <div>
           {user.name} logged in
@@ -149,17 +107,32 @@ const App = () => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       <div>
-        {blogs
+        {blogs && blogs.length > 0 ? (
+          [...blogs]
+            .sort((i, j) => j.likes - i.likes)
+            .map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                user={user}
+                handleLikeBlog={handleLikeBlog}
+              />
+            ))
+        ) : (
+          <p>Loading blogs...</p>
+        )}
+
+        {/* {blogs
           .sort((i, j) => j.likes - i.likes)
           .map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}
               user={user}
-              setBlogs={setBlogs}
+              // setBlogs={setBlogs}
               handleLikeBlog={handleLikeBlog}
             />
-          ))}
+          ))} */}
       </div>
     </>
   )
