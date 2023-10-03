@@ -3,7 +3,7 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const { userExtractor } = require('../utils/middleware')
-const { request } = require('express')
+const { request, response } = require('express')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', {
@@ -68,4 +68,23 @@ blogsRouter.put('/:id', async (request, response) => {
     response.status(404).end()
   }
 })
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const commentText = request.body.comment
+
+  try {
+    const blog = await Blog.findById(request.params.id)
+    if (!blog) {
+      return response.status(404).json({ error: 'blog not found' })
+    }
+    const comment = { comment: commentText }
+    blog.comments.push(comment)
+    const updatedBlog = await blog.save()
+    response.json(updatedBlog)
+  } catch (error) {
+    console.error(error)
+    response.status(500).json({ error: 'something went wrong' })
+  }
+})
+
 module.exports = blogsRouter

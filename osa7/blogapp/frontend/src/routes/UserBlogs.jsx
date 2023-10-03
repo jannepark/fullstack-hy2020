@@ -18,7 +18,6 @@ const UserBlogs = ({ users }) => {
           <li key={blog.id}>{blog.title}</li>
         ))}
       </ul>
-      tööt
     </div>
   )
 }

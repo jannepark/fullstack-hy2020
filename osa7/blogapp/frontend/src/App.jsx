@@ -14,6 +14,8 @@ import Home from './routes/Home'
 import UsersList from './routes/UsersList'
 import UserBlogs from './routes/UserBlogs'
 import BlogView from './routes/BlogView.jsx'
+import { Navbar } from 'react-bootstrap'
+import Navigation from './components/Navigation'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -64,27 +66,31 @@ const App = () => {
   }
   return (
     <>
-      <div>
-        <Link to="/users">Users </Link>
-        <Link to="/">Home</Link>
-        <h2>blogs</h2>
-        <Notification />
+      <div className="container">
+        <Navigation user={loggedInUser} />
         <div>
-          {loggedInUser.name} logged in
-          <button type="submit" onClick={handleLogout} id="logout">
-            logout
-          </button>
+          <h2>blogs</h2>
+          <Notification />
+          <div>
+            {loggedInUser.name} logged in
+            <button type="submit" onClick={handleLogout} id="logout">
+              logout
+            </button>
+          </div>
         </div>
+        <Routes>
+          <Route
+            path="/"
+            element={<Home user={loggedInUser} blogs={blogs} />}
+          />
+          <Route path="/users" element={<UsersList users={users} />} />
+          <Route path="/users/:id" element={<UserBlogs users={users} />} />
+          <Route
+            path="/blogs/:id"
+            element={<BlogView blogs={blogs} loggedInUser={loggedInUser} />}
+          />
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/" element={<Home user={loggedInUser} blogs={blogs} />} />
-        <Route path="/users" element={<UsersList users={users} />} />
-        <Route path="/users/:id" element={<UserBlogs users={users} />} />
-        <Route
-          path="/blogs/:id"
-          element={<BlogView blogs={blogs} loggedInUser={loggedInUser} />}
-        />
-      </Routes>
     </>
   )
 }
