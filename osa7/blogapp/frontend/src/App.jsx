@@ -9,14 +9,15 @@ import {
   loginUser,
   initializeAllUsers,
 } from './reducers/userReducer'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import Home from './routes/Home'
 import UsersList from './routes/UsersList'
+import UserBlogs from './routes/UserBlogs'
+import BlogView from './routes/BlogView.jsx'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  // const [user, setUser] = useState(null)
 
   const dispatch = useDispatch()
   const loggedInUser = useSelector((state) => state.user.loggedInUser)
@@ -78,6 +79,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home user={loggedInUser} blogs={blogs} />} />
         <Route path="/users" element={<UsersList users={users} />} />
+        <Route path="/users/:id" element={<UserBlogs users={users} />} />
+        <Route
+          path="/blogs/:id"
+          element={<BlogView blogs={blogs} loggedInUser={loggedInUser} />}
+        />
       </Routes>
     </>
   )
