@@ -39,7 +39,7 @@ export const initializeBlogs = () => {
       dispatch(setBlogs(blogs))
     } catch (error) {
       console.log(error.message)
-      dispatch(setNotification(error.message, 5))
+      dispatch(setNotification(error.message, 5, 'error'))
     }
   }
 }
@@ -48,10 +48,12 @@ export const createBlog = (content) => {
     try {
       const newBlog = await blogService.create(content)
       dispatch(appendBlog(newBlog))
-      dispatch(setNotification(`Created new blog ${content.title}`, 5))
+      dispatch(
+        setNotification(`Created new blog ${content.title}`, 5, 'notification'),
+      )
     } catch (error) {
       console.log(error.message)
-      dispatch(setNotification(error.message, 5))
+      dispatch(setNotification(error.message, 5, 'error'))
     }
   }
 }
@@ -62,7 +64,7 @@ export const likeBlog = (id) => {
       dispatch(IncrementLike(blog))
     } catch (error) {
       console.log(error.message)
-      dispatch(setNotification(error.message, 5))
+      dispatch(setNotification(error.message, 5, 'error'))
     }
   }
 }
@@ -71,10 +73,10 @@ export const deleteBlog = (blog) => {
     try {
       await blogService.remove(blog.id)
       dispatch(removeBlog(blog.id))
-      dispatch(setNotification(`Blog ${blog.title} deleted`, 5))
+      dispatch(setNotification(`Blog ${blog.title} deleted`, 5, 'notification'))
     } catch (error) {
       console.log(error.message)
-      dispatch(setNotification(error.message, 5))
+      dispatch(setNotification(error.message, 5, 'error'))
     }
   }
 }
@@ -82,11 +84,13 @@ export const commentBlog = (id, comment) => {
   return async (dispatch) => {
     try {
       const blog = await blogService.addComment(id, comment)
-      dispatch(setNotification(`Created new comment ${comment}`, 5))
+      dispatch(
+        setNotification(`Created new comment ${comment}`, 5, 'notification'),
+      )
       dispatch(updateBlog({ blog, comment }))
     } catch (error) {
       console.log(error.message)
-      dispatch(setNotification(error.message, 5))
+      dispatch(setNotification(error.message, 5, 'error'))
     }
   }
 }

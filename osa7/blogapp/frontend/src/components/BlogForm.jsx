@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
 
 const BlogForm = ({ createBlog }) => {
   const [newTitle, setNewTitle] = useState('')
@@ -27,27 +29,41 @@ const BlogForm = ({ createBlog }) => {
     setNewUrl('')
   }
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        Title:
-        <input value={newTitle} onChange={handleTitleChange} id="title-Input" />
-      </div>
-      <div>
-        Author:
-        <input
+    <Form onSubmit={addBlog}>
+      <FloatingLabel label="Title" className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Title"
+          value={newTitle}
+          onChange={handleTitleChange}
+          id="title-Input"
+        />
+      </FloatingLabel>
+
+      <FloatingLabel label="Author" className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Author"
           value={newAuthor}
           onChange={handleAuthorChange}
           id="author-Input"
         />
-      </div>
-      <div>
-        URL:
-        <input value={newUrl} onChange={handleUrlChange} id="url-Input" />
-      </div>
-      <button type="submit" id="create-blog">
-        create
-      </button>
-    </form>
+      </FloatingLabel>
+
+      <FloatingLabel label="URL" className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="URL"
+          value={newUrl}
+          onChange={handleUrlChange}
+          id="url-Input"
+        />
+      </FloatingLabel>
+
+      <Button variant="primary" type="submit" id="create-blog">
+        Create
+      </Button>
+    </Form>
   )
 }
 export default BlogForm

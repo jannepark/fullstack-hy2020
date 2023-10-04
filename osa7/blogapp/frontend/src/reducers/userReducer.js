@@ -40,7 +40,7 @@ export const loginUser = (loginUser) => {
       dispatch(setUser(user))
       dispatch(setNotification(`${user.name} logged in`, 5))
     } catch (error) {
-      dispatch(setNotification('Invalid credentials', 5))
+      dispatch(setNotification('Invalid credentials', 5, 'error'))
     }
   }
 }
@@ -49,7 +49,6 @@ export const logoutUser = () => {
   return async (dispatch) => {
     window.localStorage.removeItem('loggedNoteappUser')
     dispatch(setUser(null))
-    // dispatch(setNotification('logged out', 5))
   }
 }
 export const initializeAllUsers = () => {

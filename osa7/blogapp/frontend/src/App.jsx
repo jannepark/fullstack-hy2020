@@ -1,7 +1,17 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Routes, Route } from 'react-router-dom'
+import { Container } from 'react-bootstrap'
+
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
-import { useDispatch, useSelector } from 'react-redux'
+import Navigation from './components/Navigation'
+
+import Home from './routes/Home'
+import UsersList from './routes/UsersList'
+import UserBlogs from './routes/UserBlogs'
+import BlogView from './routes/BlogView.jsx'
+
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 import {
@@ -9,13 +19,6 @@ import {
   loginUser,
   initializeAllUsers,
 } from './reducers/userReducer'
-import { Routes, Route, Link } from 'react-router-dom'
-import Home from './routes/Home'
-import UsersList from './routes/UsersList'
-import UserBlogs from './routes/UserBlogs'
-import BlogView from './routes/BlogView.jsx'
-import { Navbar } from 'react-bootstrap'
-import Navigation from './components/Navigation'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -55,28 +58,26 @@ const App = () => {
 
   if (loggedInUser === null) {
     return (
-      <LoginForm
-        username={username}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin}
-      />
+      <div className="container">
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        />
+      </div>
     )
   }
   return (
     <>
       <div className="container">
-        <Navigation user={loggedInUser} />
+        <Navigation user={loggedInUser} handleLogout={handleLogout} />
         <div>
-          <h2>blogs</h2>
+          <Container className="centered-heading">
+            <h1>Blogs</h1>
+          </Container>
           <Notification />
-          <div>
-            {loggedInUser.name} logged in
-            <button type="submit" onClick={handleLogout} id="logout">
-              logout
-            </button>
-          </div>
         </div>
         <Routes>
           <Route

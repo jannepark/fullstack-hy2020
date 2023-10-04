@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { commentBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { likeBlog } from '../reducers/blogReducer'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { Card, Button, Form, ListGroup, Container } from 'react-bootstrap'
 
 const BlogView = ({ loggedInUser }) => {
   const blogs = useSelector((state) => state.blog)
@@ -13,7 +14,7 @@ const BlogView = ({ loggedInUser }) => {
   const navigate = useNavigate()
 
   const blog = blogs.find((n) => n.id === id)
-  const [text, setText] = useState('')
+  const [text, setComment] = useState('')
 
   if (!blog) {
     return null
@@ -27,9 +28,14 @@ const BlogView = ({ loggedInUser }) => {
   const showDel = () => {
     if (loggedInUser.name === blog.user.name) {
       const response = (
-        <button type="submit" onClick={removeBlog} id="removeBlog">
-          delete
-        </button>
+        <Button
+          variant="danger"
+          type="submit"
+          onClick={removeBlog}
+          id="removeBlog"
+        >
+          Delete
+        </Button>
       )
       return response
     }
@@ -44,7 +50,7 @@ const BlogView = ({ loggedInUser }) => {
       user: blog.user.id,
       id: blog.id,
     }
-    dispatch(setNotification(`Voted for: ${blog.title}`, 10))
+    dispatch(setNotification(`Voted for: ${blog.title}`, 10, 'notification'))
     handleLikeBlog(blogObject)
   }
   const handleLikeBlog = async (blogObject) => {
@@ -52,50 +58,59 @@ const BlogView = ({ loggedInUser }) => {
   }
 
   const handleChange = (event) => {
-    setText(event.target.value)
+    setComment(event.target.value)
   }
 
   const handleSubmit = () => {
     console.log(blog.id, text)
     dispatch(commentBlog(blog.id, text))
+    setComment('')
   }
   return (
-    <div>
-      <div className="blogStyle">
-        <div>
-          <p>{blog.title}</p>
-          <p>{blog.author}</p>
-          <p>{blog.url}</p>
-
-          <p>
-            <span id="countLikes"> {blog.likes} </span>
-            <button type="submit" onClick={addLike} id="likeBlog">
-              Like
-            </button>
-          </p>
-          <p>{blog.user.name}</p>
-          <div>{showDel()}</div>
+    <Container className="mt-4">
+      <div>
+        <div className="blogStyle">
           <div>
-            <input
-              type="text"
-              value={text}
-              onChange={handleChange}
-              placeholder="Type something..."
-            />
-            <button onClick={handleSubmit}>Submit</button>
+            <p>Title - {blog.title}</p>
+            <p>Author - {blog.author}</p>
+            <p>URL - {blog.url}</p>
+            <p>
+              {' '}
+              Likes:
+              <span id="countLikes"> {blog.likes} </span>
+              <Button
+                variant="success"
+                type="submit"
+                onClick={addLike}
+                id="likeBlog"
+              >
+                Like
+              </Button>
+            </p>
+            <p> Username - {blog.user.name}</p>
+            <div>{showDel()}</div>
+            <div>
+              <input
+                type="text"
+                value={text}
+                onChange={handleChange}
+                placeholder="Type something..."
+              />
+              <button onClick={handleSubmit}>Submit</button>
+            </div>
+            <ul>
+              {blog.comments && blog.comments.length > 0 ? (
+                blog.comments.map((commentObject) => (
+                  <li key={commentObject.id}>{commentObject.comment}</li>
+                ))
+              ) : (
+                <li>No comments</li>
+              )}
+            </ul>
           </div>
-          <ul>
-            {blog.comments && blog.comments.length > 0 ? (
-              blog.comments.map((commentObject) => (
-                <li key={commentObject.id}>{commentObject.comment}</li>
-              ))
-            ) : (
-              <li>No comments</li>
-            )}
-          </ul>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }
 export default BlogView

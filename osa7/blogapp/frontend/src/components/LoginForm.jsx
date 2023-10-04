@@ -1,6 +1,6 @@
 import Notification from './Notification'
 import PropTypes from 'prop-types'
-
+import { Form, Button, FloatingLabel } from 'react-bootstrap'
 const LoginForm = ({
   handleSubmit,
   handleUsernameChange,
@@ -21,31 +21,36 @@ const LoginForm = ({
       <div>
         <h2>Login</h2>
         <Notification />
-        <form onSubmit={handleSubmit}>
-          <div>
-            username
-            <input
+        <Form onSubmit={handleSubmit}>
+          <FloatingLabel label="Username" className="mb-3">
+            <Form.Control
               type="text"
+              placeholder="Enter username"
               value={username}
               name="Username"
               onChange={handleUsernameChange}
               id="username"
             />
-          </div>
-          <div>
-            password
-            <input
+            <Form.Text className="text-muted">
+              We will never share your information with anyone else.
+            </Form.Text>
+          </FloatingLabel>
+
+          <FloatingLabel label="Password" className="mb-3">
+            <Form.Control
               type="password"
+              placeholder="Enter password"
               value={password}
               name="Password"
               onChange={handlePasswordChange}
               id="password"
             />
-          </div>
-          <button type="submit" id="login-button">
-            login{' '}
-          </button>
-        </form>
+          </FloatingLabel>
+
+          <Button variant="primary" type="submit" id="login-button">
+            Login
+          </Button>
+        </Form>
         <p>Department of Computer Science, University of Helsinki 2023</p>
       </div>
     </>

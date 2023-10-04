@@ -1,7 +1,7 @@
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-const navigation = ({ user }) => {
+const navigation = ({ user, handleLogout }) => {
   const padding = {
     paddingRight: 5,
     paddingLeft: 5,
@@ -14,7 +14,7 @@ const navigation = ({ user }) => {
         <Nav className="mr-auto">
           <Nav.Link href="#" as="span">
             <Link style={padding} to="/">
-              home
+              Home
             </Link>
           </Nav.Link>
           <Nav.Link href="#" as="span">
@@ -23,11 +23,16 @@ const navigation = ({ user }) => {
             </Link>
           </Nav.Link>
           <Nav.Link href="#" as="span">
-            {user ? (
-              <em>{user.name} logged in</em>
-            ) : (
-              <Link to="/login">login</Link>
-            )}
+            <em>{user.name} logged in</em>
+            <Button
+              type="submit"
+              onClick={handleLogout}
+              id="logout"
+              style={{ marginLeft: '10px' }}
+              variant="secondary"
+            >
+              Logout
+            </Button>
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
