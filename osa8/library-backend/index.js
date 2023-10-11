@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { v1: uuid } = require('uuid')
 
 let authors = [
   {
@@ -108,7 +109,7 @@ const typeDefs = `
   type Query {
     bookCount: Int!
     authorCount: Int!
-    allBooks: [Book!]!
+    allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
   }
   type Author {
@@ -117,18 +118,61 @@ const typeDefs = `
     born: Int
     bookCount: Int!
   }
+  type Mutation {
+    addBook(
+      title: String!
+      published: Int!
+      author: String!
+      genres: [String]
+    ): Book
+    editAuthor(
+      name: String!
+      setBornTo: Int!): Author
+    }
 `
 
 const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: () => books,
+    allBooks: (root, args) => {
+      let returnedBooks = books
+      return returnedBooks.filter((book) => {
+        const authorMatch = !args.author || book.author === args.author
+        const genreMatch = !args.genre || book.genres.includes(args.genre)
+        return authorMatch && genreMatch
+      })
+    },
     allAuthors: () => authors,
   },
   Author: {
     bookCount: (root) => {
-      return books.filter((book) => book.author === root.name).length
+      let returnedBooks = books
+      return returnedBooks.filter((book) => book.author === root.name).length
+    },
+  },
+  Mutation: {
+    addBook: (root, args) => {
+      const authorExists = authors.some((author) => author.name === args.author)
+      if (!authorExists) {
+        const newAuthor = { name: args.author, id: uuid() }
+        authors = authors.concat(newAuthor)
+      }
+      const book = { ...args, id: uuid() }
+      books = books.concat(book)
+      return book
+    },
+    editAuthor: (root, args) => {
+      let updatedAuthor = null
+      authors = authors.map((author) => {
+        if (author.name === args.name) {
+          updatedAuthor = { ...author, born: args.setBornTo }
+          return updatedAuthor
+        } else {
+          return author
+        }
+      })
+      return updatedAuthor
     },
   },
 }
