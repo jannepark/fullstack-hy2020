@@ -7,7 +7,7 @@ const Authors = (props) => {
   const [born, setborn] = useState('')
   const [name, setName] = useState('')
   const result = useQuery(ALL_AUTHORS, {
-    pollInterval: 5000,
+    pollInterval: 50000,
   })
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     onError: (error) => {
@@ -35,7 +35,7 @@ const Authors = (props) => {
         setBornTo: parseInt(born, 10),
       },
     })
-    console.log('add book...')
+    console.log('author editissä...')
     setName('')
     setborn('')
   }

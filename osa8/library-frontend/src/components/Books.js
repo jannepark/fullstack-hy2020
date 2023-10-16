@@ -3,7 +3,7 @@ import { ALL_BOOKS } from '../queries'
 
 const Books = (props) => {
   const result = useQuery(ALL_BOOKS, {
-    pollInterval: 5000,
+    pollInterval: 50000,
   })
   if (!props.show) {
     return null
