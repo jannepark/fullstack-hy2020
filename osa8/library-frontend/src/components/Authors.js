@@ -10,6 +10,7 @@ const Authors = (props) => {
     pollInterval: 50000,
   })
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
+    refetchQueries: [{ query: ALL_AUTHORS }],
     onError: (error) => {
       const messages = error.graphQLErrors.map((e) => e.message).join('\n')
       console.log(messages)
@@ -35,7 +36,6 @@ const Authors = (props) => {
         setBornTo: parseInt(born, 10),
       },
     })
-    console.log('author editissä...')
     setName('')
     setborn('')
   }
