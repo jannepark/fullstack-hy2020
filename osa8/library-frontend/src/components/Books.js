@@ -6,6 +6,7 @@ import Select from 'react-select'
 const Books = (props) => {
   const [genreFilter, setgenreFilter] = useState('')
   const result = useQuery(ALL_BOOKS, {
+    variables: { genre: genreFilter.value },
     pollInterval: 50000,
   })
   if (!props.show) {
@@ -15,7 +16,6 @@ const Books = (props) => {
   if (result.loading) {
     return <div>loading...</div>
   }
-
   const books = result.data.allBooks
   const genres = [...new Set(books.flatMap((book) => book.genres))]
 
@@ -24,7 +24,7 @@ const Books = (props) => {
     label: genre,
   }))
   const clearFilter = () => {
-    setgenreFilter(null)
+    setgenreFilter('')
   }
 
   return (
@@ -39,21 +39,14 @@ const Books = (props) => {
             <th>Published</th>
             <th>Genres</th>
           </tr>
-          {books
-            .filter((book) => {
-              if (!genreFilter || !genreFilter.value) {
-                return true
-              }
-              return book.genres.includes(genreFilter.value)
-            })
-            .map((book) => (
-              <tr key={book.title}>
-                <td>{book.title}</td>
-                <td>{book.author.name}</td>
-                <td>{book.published}</td>
-                <td>{book.genres.join(', ')}</td>
-              </tr>
-            ))}
+          {books.map((book) => (
+            <tr key={book.title}>
+              <td>{book.title}</td>
+              <td>{book.author.name}</td>
+              <td>{book.published}</td>
+              <td>{book.genres.join(', ')}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <div className="App">
