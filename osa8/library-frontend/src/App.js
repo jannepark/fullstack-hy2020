@@ -30,24 +30,15 @@ const App = () => {
   const [token, setToken] = useState(tokenFromLocalStorage)
   const client = useApolloClient()
 
-  // const handleLogout = () => {
-  //   setToken(null)
-  //   localStorage.clear()
-  //   client.resetStore()
-  //   setPage('authors')
-  // }
   const handleLogout = () => {
-    setToken(null) // Clearing token
-    localStorage.removeItem('library-user-token') // Removing specific item
-    client
-      .clearStore() // Clearing Apollo Client store
-      .then(() => client.resetStore()) // Resetting Apollo Client store
-    setPage('authors') // Setting page to authors
+    setToken(null)
+    localStorage.removeItem('library-user-token')
+    client.clearStore().then(() => client.resetStore())
+    setPage('authors')
   }
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data, client }) => {
-      console.log(data.data)
       const bookAdded = data.data.bookAdded
       updateCache(client.cache, { query: ALL_BOOKS }, bookAdded)
       notify(`${bookAdded.title} added`)
