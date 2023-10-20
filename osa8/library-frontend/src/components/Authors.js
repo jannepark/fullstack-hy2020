@@ -6,9 +6,7 @@ import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries'
 const Authors = (props) => {
   const [born, setborn] = useState('')
   const [name, setName] = useState('')
-  const result = useQuery(ALL_AUTHORS, {
-    pollInterval: 50000,
-  })
+  const result = useQuery(ALL_AUTHORS, {})
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
     onError: (error) => {
