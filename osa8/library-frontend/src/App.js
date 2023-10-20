@@ -25,17 +25,24 @@ export const updateCache = (cache, query, bookAdded) => {
 }
 
 const App = () => {
-  // const result = useQuery(ALL_BOOKS)
   const [page, setPage] = useState('authors')
   const tokenFromLocalStorage = localStorage.getItem('library-user-token')
   const [token, setToken] = useState(tokenFromLocalStorage)
   const client = useApolloClient()
 
+  // const handleLogout = () => {
+  //   setToken(null)
+  //   localStorage.clear()
+  //   client.resetStore()
+  //   setPage('authors')
+  // }
   const handleLogout = () => {
-    setToken(null)
-    localStorage.clear()
-    client.resetStore()
-    setPage('authors')
+    setToken(null) // Clearing token
+    localStorage.removeItem('library-user-token') // Removing specific item
+    client
+      .clearStore() // Clearing Apollo Client store
+      .then(() => client.resetStore()) // Resetting Apollo Client store
+    setPage('authors') // Setting page to authors
   }
 
   useSubscription(BOOK_ADDED, {

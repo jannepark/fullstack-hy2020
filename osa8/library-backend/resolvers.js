@@ -34,6 +34,7 @@ const resolvers = {
   },
   Author: {
     bookCount: (root, args, { loaders }) => {
+      console.log(root.id)
       return loaders.bookCount.load(root.id)
     },
   },
