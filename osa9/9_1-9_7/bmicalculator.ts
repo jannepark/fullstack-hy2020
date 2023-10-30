@@ -1,4 +1,4 @@
-const calculateBmi = (height: number, weight: number) => {
+export const calculateBmi = (height: number, weight: number) => {
   const bmi = weight / ((height / 100) * (height / 100));
   let category;
   console.log(bmi);
