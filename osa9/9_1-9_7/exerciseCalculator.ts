@@ -63,13 +63,17 @@ const exerciseCalculator = (
   };
 };
 
-try {
-  const { argsTarget, argsHours } = parseArguments(process.argv);
-  console.log(exerciseCalculator(argsHours, argsTarget));
-} catch (error: unknown) {
-  let errorMessage = 'Something bad happened.';
-  if (error instanceof Error) {
-    errorMessage += ' Error: ' + error.message;
+if (require.main === module) {
+  try {
+    const { argsTarget, argsHours } = parseArguments(process.argv);
+    console.log(exerciseCalculator(argsHours, argsTarget));
+  } catch (error: unknown) {
+    let errorMessage = 'Something bad happened.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }
+
+export default exerciseCalculator;
