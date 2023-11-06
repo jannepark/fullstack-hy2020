@@ -6,9 +6,17 @@ const patientsRouter = express.Router();
 patientsRouter.get('/', (_req, res) => {
   res.send(patientsService.getNonSensitiveEntries());
 });
-
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 patientsRouter.post('/', (_req, res) => {
-  res.send('Saving a patient!');
+  const { name, dateOfBirth, ssn, gender, occupation } = _req.body;
+  const addedPatient = patientsService.addPatient({
+    name,
+    dateOfBirth,
+    ssn,
+    gender,
+    occupation,
+  });
+  res.send(addedPatient);
 });
 
 export default patientsRouter;
