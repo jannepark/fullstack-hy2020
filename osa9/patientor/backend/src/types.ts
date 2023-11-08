@@ -1,9 +1,12 @@
-// export type Visibility = 'code' | 'name' | 'latin';
-
 export interface DiagnoseEntry {
   code: string;
   name: string;
   latin?: string;
+}
+export enum Gender {
+  Female = 'female',
+  Male = 'male',
+  Other = 'other',
 }
 
 export interface PatientEntry {
@@ -11,7 +14,7 @@ export interface PatientEntry {
   name: string;
   dateOfBirth: string;
   ssn: string;
-  gender: string;
+  gender: Gender;
   occupation: string;
 }
 
