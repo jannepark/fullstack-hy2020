@@ -10,7 +10,6 @@
     "es6": true,
     "node": true
   },
-  "ignorePatterns": ["**/build/*"],
   "rules": {
     "@typescript-eslint/semi": ["error"],
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -26,6 +25,6 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "osa9/flight-diary/tsconfig.json"
+    "project": "./osa9/flight-diary/tsconfig.json"
   }
 }
