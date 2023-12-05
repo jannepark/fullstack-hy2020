@@ -1,9 +1,9 @@
-// AppBar.js
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import Constants from 'expo-constants';
-import AppBarTab from './AppBarTab'; // Import the new component
+import AppBarTab from './AppBarTab';
 import theme from '../theme';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,9 +11,12 @@ const styles = StyleSheet.create({
     paddingBottom: Constants.statusBarHeight / 2,
     backgroundColor: theme.colors.backgroundBar,
     paddingLeft: Constants.statusBarHeight / 3,
-    flexDirection: 'row', // Align items in a row
-    alignItems: 'center', // Align items vertically
+    flexDirection: 'row',
+    alignItems: 'center',
     // ...
+  },
+  tab: {
+    marginLeft: 10,
   },
   // ...
 });
@@ -21,8 +24,12 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <AppBarTab title="Home" />
-      <AppBarTab title="Repositories" />
+      <Link to="/signIn" component={Pressable} style={styles.tab}>
+        <AppBarTab title="Sign in" />
+      </Link>
+      <Link to="/" component={Pressable} style={styles.tab}>
+        <AppBarTab title="Repositories" />
+      </Link>
     </View>
   );
 };
