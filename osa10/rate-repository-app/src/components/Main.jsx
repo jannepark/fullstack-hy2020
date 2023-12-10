@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
 });
-
+console.log('höpö');
 const Main = () => {
   return (
     <View style={styles.container}>
