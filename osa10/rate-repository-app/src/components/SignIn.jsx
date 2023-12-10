@@ -39,7 +39,6 @@ const SignInForm = ({ onSubmit }) => {
   );
 };
 const SignIn = () => {
-  console.log('täällä1');
   const [signIn] = useSignIn();
   const navigate = useNavigate();
 
@@ -49,13 +48,10 @@ const SignIn = () => {
   };
 
   const onSubmit = async (values) => {
-    console.log('täällä2');
     console.log(values);
     const { username, password } = values;
 
     try {
-      console.log(values, 'töötsdsadf');
-      console.log('täällä3');
       const data = await signIn({ username, password });
       if (data) {
         console.log('Successfully logged in');
