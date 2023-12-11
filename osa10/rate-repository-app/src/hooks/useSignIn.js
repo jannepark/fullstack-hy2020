@@ -13,7 +13,6 @@ const useSignIn = () => {
 
     await authStorage.setAccessToken(data.authenticate.accessToken);
     client.resetStore();
-    console.log('successfully stored access token');
 
     return data;
   };

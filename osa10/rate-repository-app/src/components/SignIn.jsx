@@ -54,7 +54,7 @@ const SignIn = () => {
     try {
       const data = await signIn({ username, password });
       if (data) {
-        console.log('Successfully logged in');
+        console.log(username, 'Successfully logged in');
         navigate('/');
       }
     } catch (e) {

@@ -4,10 +4,13 @@ import Constants from 'expo-constants';
 import AppBarTab from './AppBarTab';
 import theme from '../theme';
 import { Link } from 'react-router-native';
+import { useQuery } from '@apollo/client';
+import { ME } from '../graphql/queries';
+import useSignOut from '../hooks/useSignOut';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight * 2,
+    paddingTop: Constants.statusBarHeight,
     paddingBottom: Constants.statusBarHeight / 2,
     backgroundColor: theme.colors.backgroundBar,
     paddingLeft: Constants.statusBarHeight / 3,
@@ -22,12 +25,26 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const { loading, data } = useQuery(ME);
+  const signOut = useSignOut();
+
+  if (loading) return null;
+
+  const userIsSignedIn = data?.me;
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator>
-        <Link to="/signIn" component={Pressable} style={styles.tab}>
-          <AppBarTab title="Sign in" />
-        </Link>
+        {!userIsSignedIn && (
+          <Link to="/signIn" component={Pressable} style={styles.tab}>
+            <AppBarTab title="Sign in" />
+          </Link>
+        )}
+        {userIsSignedIn && (
+          <Pressable onPress={signOut} style={styles.tab}>
+            <AppBarTab title="Sign out" />
+          </Pressable>
+        )}
         <Link to="/" component={Pressable} style={styles.tab}>
           <AppBarTab title="Repositories" />
         </Link>
