@@ -28,4 +28,14 @@ export const ME = gql`
   }
 `;
 
+export const GET_REPOSITORY_BY_ID = gql`
+  {
+    repository(id: $id) {
+      id
+      fullName
+      url
+    }
+  }
+`;
+
 // other queries...
