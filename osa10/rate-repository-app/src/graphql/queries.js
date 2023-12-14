@@ -29,10 +29,17 @@ export const ME = gql`
 `;
 
 export const GET_REPOSITORY_BY_ID = gql`
-  {
+  query Repository($id: ID!) {
     repository(id: $id) {
-      id
+      ownerAvatarUrl
+      description
       fullName
+      language
+      stargazersCount
+      forksCount
+      reviewCount
+      ratingAverage
+      id
       url
     }
   }

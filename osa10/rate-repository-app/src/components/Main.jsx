@@ -4,6 +4,7 @@ import { Route, Routes, Navigate } from 'react-router-native';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
 import SignInForm from './SignIn';
+import SingleRepositoryView from './SingleRepositoryView';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +12,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
 });
-console.log('höpö');
 const Main = () => {
   return (
     <View style={styles.container}>
@@ -19,6 +19,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signIn" element={<SignInForm />} />
+        <Route path="/repository/:id" element={<SingleRepositoryView />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </View>

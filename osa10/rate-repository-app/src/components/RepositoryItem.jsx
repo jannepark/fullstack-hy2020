@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Button } from 'react-native';
 import Text from './Text';
+import * as Linking from 'expo-linking';
+import theme from '../theme';
 
 function formatNumber(num) {
   if (num >= 1000) {
@@ -39,11 +41,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  signInButton: {
+    ...theme.button,
+  },
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, singleView }) => {
+  if (item) {
+    console.log(item.fullName, 'oho');
+  }
+
   return (
     <View testID="repositoryItem" style={styles.container}>
+      {/* <MyComponent id="jaredpalmer.formik" /> */}
       <View style={styles.topRow}>
         <Image source={{ uri: item.ownerAvatarUrl }} style={styles.image} />
         <View style={styles.infoContainer}>
@@ -68,17 +79,19 @@ const RepositoryItem = ({ item }) => {
       <View style={styles.statsContainer}>
         <View style={styles.statItemContainer}>
           <Text>Stars: </Text>
-          <Text fontWeight="bold">{formatNumber(item.stargazersCount)}</Text>
+          <Text fontWeight="bold">
+            {formatNumber(item.stargazersCount ?? 0)}
+          </Text>
         </View>
 
         <View style={styles.statItemContainer}>
           <Text>Forks: </Text>
-          <Text fontWeight="bold">{formatNumber(item.forksCount)}</Text>
+          <Text fontWeight="bold">{formatNumber(item.forksCount ?? 0)}</Text>
         </View>
 
         <View style={styles.statItemContainer}>
           <Text>Reviews:</Text>
-          <Text fontWeight="bold">{formatNumber(item.reviewCount)}</Text>
+          <Text fontWeight="bold">{formatNumber(item.reviewCount ?? 0)}</Text>
         </View>
 
         <View style={styles.statItemContainer}>
@@ -86,6 +99,14 @@ const RepositoryItem = ({ item }) => {
           <Text fontWeight="bold">{item.ratingAverage}</Text>
         </View>
       </View>
+      {singleView && (
+        <View style={styles.container}>
+          <Button
+            title={'Open in GitHub'}
+            onPress={() => Linking.openURL(item.url)}
+          ></Button>
+        </View>
+      )}
     </View>
   );
 };
