@@ -48,10 +48,6 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item, singleView }) => {
-  if (item) {
-    console.log(item.fullName, 'oho');
-  }
-
   return (
     <View testID="repositoryItem" style={styles.container}>
       {/* <MyComponent id="jaredpalmer.formik" /> */}

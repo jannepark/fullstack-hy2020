@@ -36,6 +36,10 @@ const theme = {
     elevation: 3,
     textAlign: 'center',
   },
+  listSeparator: {
+    height: 10,
+    backgroundColor: '#586069',
+  },
 };
 
 export default theme;
