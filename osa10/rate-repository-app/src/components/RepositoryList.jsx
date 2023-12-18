@@ -3,6 +3,8 @@ import RepositoryItem from './RepositoryItem';
 import theme from '../theme';
 import useRepositories from '../hooks/useRepositories';
 import { useNavigate } from 'react-router-native';
+import { Picker } from '@react-native-picker/picker';
+import { useState } from 'react';
 
 const styles = StyleSheet.create({
   separator: {
@@ -36,9 +38,22 @@ export const RepositoryListContainer = ({ repositories }) => {
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const [selectedSort, setSelectedSort] = useState();
+  const { repositories } = useRepositories(selectedSort);
 
-  return <RepositoryListContainer repositories={repositories} />;
+  return (
+    <>
+      <Picker
+        selectedValue={selectedSort}
+        onValueChange={(itemValue) => setSelectedSort(itemValue)}
+      >
+        <Picker.Item label="Latest repositorys" value="latestRepositorys" />
+        <Picker.Item label="Highest rated repositorys" value="highestRated" />
+        <Picker.Item label="Lowest rated repositorys" value="lowestRated" />
+      </Picker>
+      <RepositoryListContainer repositories={repositories} />
+    </>
+  );
 };
 
 export default RepositoryList;
