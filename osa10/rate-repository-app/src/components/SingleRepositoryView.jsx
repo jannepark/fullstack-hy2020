@@ -42,7 +42,6 @@ const SingleRepositoryView = () => {
       // ...
     />
   );
-  // return <RepositoryItem item={repository.repository} singleView={true} />;
 };
 
 export default SingleRepositoryView;

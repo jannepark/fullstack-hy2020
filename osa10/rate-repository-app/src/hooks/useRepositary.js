@@ -3,8 +3,8 @@ import { GET_REPOSITORY_BY_ID } from '../graphql/queries';
 
 export const useRepository = (id) => {
   const { data, loading, error } = useQuery(GET_REPOSITORY_BY_ID, {
-    variables: { id },
     fetchPolicy: 'cache-and-network',
+    variables: { id },
   });
 
   if (loading) return { loading: true };

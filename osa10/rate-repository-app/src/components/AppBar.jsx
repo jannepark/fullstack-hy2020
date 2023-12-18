@@ -48,6 +48,9 @@ const AppBar = () => {
         <Link to="/" component={Pressable} style={styles.tab}>
           <AppBarTab title="Repositories" />
         </Link>
+        <Link to="/review" component={Pressable} style={styles.tab}>
+          <AppBarTab title="Create review" />
+        </Link>
       </ScrollView>
     </View>
   );
