@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
     }),
     fontWeight: theme.fontWeights.normal,
   },
+  colorTextError: {
+    color: theme.colors.textError,
+  },
   colorTextSecondary: {
     color: theme.colors.textSecondary,
   },
@@ -50,6 +53,7 @@ const Text = ({
 }) => {
   const textStyle = [
     styles.text,
+    color === 'textError' && styles.colorTextError,
     color === 'textSecondary' && styles.colorTextSecondary,
     color === 'primary' && styles.colorPrimary,
     color === 'language' && styles.colorLanguage,

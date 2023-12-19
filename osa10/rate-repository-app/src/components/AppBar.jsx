@@ -45,12 +45,24 @@ const AppBar = () => {
             <AppBarTab title="Sign out" />
           </Pressable>
         )}
+        {!userIsSignedIn && (
+          <Link to="/signUp" component={Pressable} style={styles.tab}>
+            <AppBarTab title="Sign Up" />
+          </Link>
+        )}
         <Link to="/" component={Pressable} style={styles.tab}>
           <AppBarTab title="Repositories" />
         </Link>
-        <Link to="/review" component={Pressable} style={styles.tab}>
-          <AppBarTab title="Create review" />
-        </Link>
+        {userIsSignedIn && (
+          <Link to="/review" component={Pressable} style={styles.tab}>
+            <AppBarTab title="Create review" />
+          </Link>
+        )}
+        {userIsSignedIn && (
+          <Link to="/myReviews" component={Pressable} style={styles.tab}>
+            <AppBarTab title="My Reviews" />
+          </Link>
+        )}
       </ScrollView>
     </View>
   );

@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/client';
 
 import { GET_REPOSITORIES } from '../graphql/queries';
 
-const useRepositories = (selectedSort) => {
-  let variables = {};
+const useRepositories = ({ selectedSort, searchKeyword }) => {
+  let variables = { searchKeyword };
 
   if (selectedSort === 'latestRepositorys') {
     variables.orderBy = 'CREATED_AT';

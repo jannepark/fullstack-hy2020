@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
 export const ReviewItem = ({ review }) => {
   const parsedDate = parseISO(review.createdAt);
   const formattedDate = format(parsedDate, 'dd.MM.yyyy');
+
   return (
     <View testID="ReviewItem" style={styles.container}>
       <View style={styles.topRow}>
@@ -45,8 +46,9 @@ export const ReviewItem = ({ review }) => {
           </Text>
         </View>
         <View style={styles.infoContainer}>
-          <Text fontWeight="bold" marginBetween="primary">
-            {review.user.username}
+          <Text fontWeight="bold">{review.user?.username}</Text>
+          <Text fontWeight="bold">
+            {review.repository?.ownerName}/{review.repository?.name}
           </Text>
           <Text marginBetween="primary" color="textSecondary">
             {formattedDate}
