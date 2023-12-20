@@ -5,14 +5,18 @@ import { ME } from '../graphql/queries';
 const useUserReviews = () => {
   let variables = { includeReviews: true };
 
-  const { data, loading } = useQuery(ME, {
+  const result = useQuery(ME, {
     fetchPolicy: 'cache-and-network',
     variables: variables,
 
     // Other options
   });
 
-  return { repositories: data?.me, loading };
+  return {
+    repositories: result.data?.me,
+    loading: result.loading,
+    refetch: result.refetch,
+  };
 };
 
 export default useUserReviews;

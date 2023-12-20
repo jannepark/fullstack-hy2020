@@ -68,7 +68,6 @@ const Review = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    console.log(values);
     const { ownerName, repositoryName, rating, text } = values;
 
     try {

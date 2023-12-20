@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const UserReviewsContainer = ({ repositories }) => {
+const UserReviewsContainer = ({ repositories, refetch }) => {
   const repositoryNodes = repositories
     ? repositories.reviews.edges.map((edge) => edge.node)
     : [];
@@ -26,7 +26,9 @@ const UserReviewsContainer = ({ repositories }) => {
       <FlatList
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
-        renderItem={({ item }) => <ReviewItem review={item} />}
+        renderItem={({ item }) => (
+          <ReviewItem review={item} refetch={refetch} />
+        )}
         keyExtractor={(item) => item.id}
       />
     );
@@ -41,10 +43,10 @@ const UserReviewsContainer = ({ repositories }) => {
 };
 
 const UserReviews = () => {
-  const { repositories } = useUserReviews();
+  const { repositories, refetch } = useUserReviews();
   return (
     <View style={styles.container}>
-      <UserReviewsContainer repositories={repositories} />
+      <UserReviewsContainer repositories={repositories} refetch={refetch} />
     </View>
   );
 };

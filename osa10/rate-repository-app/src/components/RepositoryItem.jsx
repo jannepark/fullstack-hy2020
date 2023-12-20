@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
 const RepositoryItem = ({ item, singleView }) => {
   return (
     <View testID="repositoryItem" style={styles.container}>
-      {/* <MyComponent id="jaredpalmer.formik" /> */}
       <View style={styles.topRow}>
         <Image source={{ uri: item.ownerAvatarUrl }} style={styles.image} />
         <View style={styles.infoContainer}>

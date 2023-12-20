@@ -76,7 +76,6 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    console.log(values);
     const { username, password } = values;
 
     try {

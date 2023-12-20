@@ -1,7 +1,9 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable, Alert } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
 import { format, parseISO } from 'date-fns';
+import useDeleteReview from '../hooks/useDeleteReview';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,12 +33,40 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     justifyContent: 'space-around',
   },
+  button: {
+    ...theme.button,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
 });
 
-export const ReviewItem = ({ review }) => {
+export const ReviewItem = ({ review, refetch }) => {
   const parsedDate = parseISO(review.createdAt);
   const formattedDate = format(parsedDate, 'dd.MM.yyyy');
+  const [deleteReview] = useDeleteReview();
+  const navigate = useNavigate();
 
+  const handleDelete = async () => {
+    Alert.alert(
+      'Delete review',
+      'Are you sure you want to delete this review?',
+      [
+        {
+          text: 'CANCEL',
+          style: 'cancel',
+        },
+        {
+          text: 'DELETE',
+          onPress: async () => {
+            await deleteReview({ id: review.id });
+            await refetch();
+          },
+        },
+      ]
+    );
+  };
   return (
     <View testID="ReviewItem" style={styles.container}>
       <View style={styles.topRow}>
@@ -56,6 +86,20 @@ export const ReviewItem = ({ review }) => {
           <Text>{review.text}</Text>
         </View>
       </View>
+      {review.repository && (
+        <View style={styles.buttonsContainer}>
+          <Pressable
+            onPress={() => navigate(`/repository/${review.repository.id}`)}
+          >
+            <Text style={styles.button}>View repository</Text>
+          </Pressable>
+          <Pressable onPress={handleDelete}>
+            <Text style={[styles.button, { backgroundColor: 'red' }]}>
+              Delete review
+            </Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 };
