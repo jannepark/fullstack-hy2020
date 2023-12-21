@@ -5,12 +5,17 @@ export const GET_REPOSITORIES = gql`
     $orderBy: AllRepositoriesOrderBy
     $orderDirection: OrderDirection
     $searchKeyword: String
+    $first: Int
+    $after: String
   ) {
     repositories(
       orderBy: $orderBy
       orderDirection: $orderDirection
       searchKeyword: $searchKeyword
+      first: $first
+      after: $after
     ) {
+      totalCount
       edges {
         node {
           ownerAvatarUrl
@@ -23,6 +28,12 @@ export const GET_REPOSITORIES = gql`
           ratingAverage
           id
         }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
       }
     }
   }
@@ -52,7 +63,7 @@ export const ME = gql`
 `;
 
 export const GET_REPOSITORY_BY_ID = gql`
-  query Repository($id: ID!) {
+  query Repository($id: ID!, $first: Int, $after: String) {
     repository(id: $id) {
       ownerAvatarUrl
       description
@@ -64,7 +75,7 @@ export const GET_REPOSITORY_BY_ID = gql`
       ratingAverage
       id
       url
-      reviews {
+      reviews(first: $first, after: $after) {
         edges {
           node {
             id
@@ -76,6 +87,12 @@ export const GET_REPOSITORY_BY_ID = gql`
               username
             }
           }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
         }
       }
     }

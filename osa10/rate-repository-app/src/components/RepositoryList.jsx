@@ -7,6 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { Searchbar } from 'react-native-paper';
 import { useDebounce } from 'use-debounce';
+import React from 'react';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +41,7 @@ export const RepositoryListContainer = ({
   repositories,
   searchQuery,
   setSearchQuery,
+  onEndReach,
 }) => {
   const navigate = useNavigate();
   const repositoryNodes = repositories
@@ -48,6 +50,8 @@ export const RepositoryListContainer = ({
   return (
     <FlatList
       data={repositoryNodes}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
       ItemSeparatorComponent={ItemSeparator}
       ListHeaderComponent={
         <SearchField
@@ -70,10 +74,16 @@ const RepositoryList = () => {
   const [selectedSort, setSelectedSort] = useState();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchQueryDebounce] = useDebounce(searchQuery, 500);
-  const { repositories } = useRepositories({
+  const { repositories, fetchMore } = useRepositories({
     selectedSort,
     searchKeyword: searchQueryDebounce,
+    first: 10,
   });
+
+  const onEndReach = () => {
+    fetchMore();
+  };
+
   return (
     <View style={styles.container}>
       <Picker
@@ -88,6 +98,7 @@ const RepositoryList = () => {
         repositories={repositories}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        onEndReach={onEndReach}
       />
     </View>
   );

@@ -14,14 +14,18 @@ const styles = StyleSheet.create({
 
 const SingleRepositoryView = () => {
   const { id } = useParams();
-  const { repository } = useRepository(id);
+  const { repository, fetchMore } = useRepository({ id, first: 4 });
 
   if (!repository) {
     return null;
   }
   const reviews = repository
-    ? repository.repository.reviews.edges.map((edge) => edge.node)
+    ? repository.reviews.edges.map((edge) => edge.node)
     : [];
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   const ItemSeparator = () => <View style={styles.separator} />;
 
@@ -32,9 +36,11 @@ const SingleRepositoryView = () => {
       keyExtractor={({ id }) => id}
       ItemSeparatorComponent={ItemSeparator}
       ListFooterComponent={ItemSeparator}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={() => (
         <>
-          <RepositoryItem item={repository.repository} singleView={true} />
+          <RepositoryItem item={repository} singleView={true} />
           <ItemSeparator />
         </>
       )}
