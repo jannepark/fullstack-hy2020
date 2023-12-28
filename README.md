@@ -1,4 +1,4 @@
-# Helsingin Avoin yliopisto | Full Stack -Websovelluskehitys MOOC
+# Helsingin Avoin yliopisto | Full Stack Open -Websovelluskehitys MOOC
 [Full Stack Open](https://fullstackopen.com/)
 ## Submitted exercises:
 ### Full Stack Open 2023, Parts 0-7
